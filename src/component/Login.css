@@ -25,13 +25,11 @@
 .login-title-kor {
     color: #C31632;
     font-size: 2rem;
-    font-weight: 600;
 }
 
 .login-title-eng {
     color: #C31632;
     font-size: 1.5rem;
-    font-weight: 600;
 }
 
 .login-input-box-list {
@@ -79,13 +77,11 @@
     justify-content: center;
     align-items: center;
     border-radius: 0.25rem;
-    cursor: pointer;
 }
 
 .login-button-text {
     font-size: 0.75rem;
     color: #ffffff;
-    font-weight: 600;
 }
 
 .find-box {
@@ -95,13 +91,10 @@
 .find-text {
     color: #95A5A6;
     font-size: 0.7rem;
-    font-weight: 600;
-    cursor: pointer;
 }
 
 .bottom-title-text {
     font-size: 1.1rem;
     color: #51626F;
-    font-weight: 600;
     margin-top: 5rem;
 }

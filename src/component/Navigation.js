@@ -1,5 +1,4 @@
 import './Navigation.css';
-import '../Common.css'
 import sejong_img from './sejong.png'
 import home_img from './home.png'
 import mypage_img from './mypage.png'

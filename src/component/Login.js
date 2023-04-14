@@ -1,7 +1,6 @@
 import './Login.css';
-import '../Common.css'
-import user from './user.png'
-import password from './password.png'
+import user from './user.png';
+import password from './password.png';
 
 function Login() {
     return (

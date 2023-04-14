@@ -31,6 +31,23 @@
     font-size: 1.5rem;
 }
 
+.reservation-room-list-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.reservation-room-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
 @media (max-width: 55rem) {
     .home {
         align-items: flex-start;

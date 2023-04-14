@@ -9,3 +9,23 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.margin-top-1rem {
+    margin-top: 1rem;
+}
+
+.margin-top-2rem {
+    margin-top: 2rem;
+}
+
+.contents-box {
+    width: 55rem;
+    background-color: white;
+    border-radius: 2rem;
+    padding: 1rem;
+}
+
+.contents-box-title-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+}

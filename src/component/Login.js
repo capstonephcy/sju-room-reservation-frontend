@@ -1,6 +1,4 @@
 import './Login.css';
-import user from './user.png';
-import password from './password.png';
 
 function Login() {
     return (
@@ -11,11 +9,11 @@ function Login() {
 
                 <div className='login-input-box-list'>
                     <div className='login-input-box'>
-                        <img src={user} className="login-input-icon" alt="logo" />
+                        <img src="/img/user.png" className="login-input-icon" alt="logo" />
                         <input type='text' className='login-input' placeholder='학번' />
                     </div>
                     <div className='login-input-box'>
-                        <img src={password} className="login-input-icon" alt="logo" />
+                        <img src="/img/password.png" className="login-input-icon" alt="logo" />
                         <input type='password' className='login-input' placeholder='비밀번호' />
                     </div>
 

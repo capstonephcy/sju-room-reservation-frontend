@@ -19,6 +19,8 @@
 }
 
 .contents-box {
+    display: flex;
+    flex-direction: row;
     width: 55rem;
     background-color: white;
     border-radius: 2rem;
@@ -28,4 +30,30 @@
 .contents-box-title-text {
     font-size: 1.25rem;
     font-weight: 600;
+}
+
+.red-box {
+    background-color: #C31632;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+}
+
+.red-box-text {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 600;
+}
+
+.checkbox {
+    accent-color: white;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

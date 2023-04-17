@@ -31,6 +31,15 @@
     font-size: 1.5rem;
 }
 
+.reservation-box {
+    justify-content: space-around;
+}
+
+.reservation-box > * {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+}
+
 .reservation-room-list-box {
     display: flex;
     flex-direction: row;
@@ -46,6 +55,40 @@
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     cursor: pointer;
+}
+
+.gray-box {
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: #F4F1F1;
+    border-radius: 0.5rem;
+}
+
+.gray-box-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.gray-box-text {
+    font-size: 0.9rem;
+    margin: 0.15rem;
+    cursor: pointer;
+}
+
+.gray-dropdown {
+    width: 6.25rem;
+    background-color: transparent;
+    border: 0;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.search-box {
+    width: 11.25rem;
 }
 
 @media (max-width: 55rem) {

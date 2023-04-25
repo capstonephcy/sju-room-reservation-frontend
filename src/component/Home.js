@@ -5,16 +5,16 @@ import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
 
 function Home() {
-  const [value, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const [showsCalendar, setShowsCalendar] = useState(false);
 
   const onChange = date => {
-    setDate();
+    setDate(date);
     setShowsCalendar(false);
   };
 
   const toggleDate = () => {
-    setShowsCalendar(true);
+    setShowsCalendar(!showsCalendar);
   }
 
   return (
@@ -37,7 +37,7 @@ function Home() {
           </div>
           <div className='gray-box' onClick={toggleDate}>
             <img src='/img/schedule.png' className='gray-box-icon'/>
-            <a className='gray-box-text'>23년 4월 7일</a>
+            <a className='gray-box-text'>{date.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' })}</a>
           </div>
           <div className='gray-box'>
             <img src='/img/clock.png' className='gray-box-icon'/>
@@ -55,7 +55,7 @@ function Home() {
             <a className='red-box-text'>예약하기</a>
           </div>
         </div>
-        {showsCalendar && <Calendar className='hidden' onChange={onChange} value={value}/>}
+        {showsCalendar && <Calendar className='hidden' onChange={onChange} value={date}/>}
 
         <div className='margin-top-2rem'>
           <a className='contents-box-title-text'>현재 진행 중인 회의</a>

@@ -87,14 +87,21 @@
     cursor: pointer;
 }
 
-.search-box {
-    width: 11.25rem;
-}
-
 .react-calendar {
     position: fixed;
     border-radius: 0.75rem;
 }
+
+.search-box {
+    width: 11.25rem;
+}
+
+.search-box-input {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+}
+
 
 @media (max-width: 55rem) {
     .home {

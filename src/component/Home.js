@@ -7,6 +7,7 @@ import { useState } from 'react';
 function Home() {
   const [date, setDate] = useState(new Date());
   const [showsCalendar, setShowsCalendar] = useState(false);
+  const [members, setMembers] = useState([]);
 
   const onChange = date => {
     setDate(date);
@@ -45,7 +46,7 @@ function Home() {
           </div>
           <div className='search-box gray-box'>
             <img src='/img/search.png' className='gray-box-icon'/>
-            <a className='gray-box-text text-ellipsis'>홍길동, 홍길동, 홍길동, 홍길</a>
+            <input className='search-box-input gray-box-text text-ellipsis' placeholder={members.length > 0 ? members.join(", ") : "참여 인원 이름 검색"}></input>
           </div>
           <div className='gray-box'>
             <input className='checkbox' type="checkbox"/>

@@ -91,6 +91,11 @@
     width: 11.25rem;
 }
 
+.react-calendar {
+    position: fixed;
+    border-radius: 0.75rem;
+}
+
 @media (max-width: 55rem) {
     .home {
         align-items: flex-start;

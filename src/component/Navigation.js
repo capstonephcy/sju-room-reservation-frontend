@@ -12,7 +12,6 @@ function Navigation() {
     navigate("/mypage")
   }
 
-
   return (
     <div className='navigation'>
       <img className='logo-img cursor-pointer' src="/img/sejong.png" />

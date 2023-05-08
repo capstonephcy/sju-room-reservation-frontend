@@ -20,7 +20,6 @@ function MyPage() {
                             <a className={mobilable('id-name-text')}>18011542 강한빛</a>
                             <div className={mobilable('profile-command-box')}>
                                 <a className='profile-command-text'>· 로그아웃</a>
-                                <a className='profile-command-text'>· 비밀번호 찾기</a>
                                 <a className='profile-command-text'>· 회원 탈퇴</a>
                             </div>
                         </div>

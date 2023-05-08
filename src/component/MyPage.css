@@ -1,0 +1,57 @@
+.profile-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.profile-box-mobile {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+.profile-img {
+    border-radius: 50%;
+    width: 4.75rem;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.profile-contents-box {
+    width: 100%;
+    margin-left: 1.25rem;
+}
+
+.id-name-text {
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.id-name-text-mobile {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.profile-command-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.profile-command-box-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: 0.25rem;
+}
+
+.profile-command-text {
+    color: #555555;
+    font-size: 0.75rem;
+    margin-right: 1.25rem;
+    cursor: pointer;
+}

@@ -164,6 +164,34 @@
 }
 
 
+/* WIP Box */
+.wip-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wip-time-text {
+    font-size: 1.25rem;
+}
+
+.wip-description-text {
+    flex: 1;
+    margin-left: 2rem;
+    font-size: 1.5rem;
+}
+
+.wip-participants-text {
+    width: 8rem;
+    margin-right: 1rem;
+}
+
+.admission-confirm-button {
+    padding: 0 1rem;
+}
+
+
 /* Repetition Modal */
 .rep-modal-background {
     position: fixed;

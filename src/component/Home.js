@@ -91,7 +91,7 @@ function Home() {
             <input className='search-box-input gray-box-text text-ellipsis' placeholder={members.length > 0 ? members.join(", ") : "참여 인원 이름 검색"}></input>
           </div>
           <div className='gray-box'>
-            <input className='checkbox' type="checkbox" checked={isRepChecked} onChange={setIsRepChecked}/>
+            <input className='checkbox' type="checkbox" checked={isRepChecked} onChange={({ target: { checked } }) => setIsRepChecked(checked)}/>
             <a className='gray-box-text' onClick={() => setIsRepChecked(!isRepChecked)}>반복</a>
           </div>
           <div className='red-box' onClick={toggleReservationButton}>

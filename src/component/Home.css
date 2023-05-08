@@ -172,6 +172,11 @@
     align-items: center;
 }
 
+.wip-box-mobile {
+    display: flex;
+    flex-direction: column;
+}
+
 .wip-time-text {
     font-size: 1.25rem;
 }
@@ -182,13 +187,33 @@
     font-size: 1.5rem;
 }
 
+.wip-description-text-mobile {
+    margin-top: 0.25rem;
+}
+
+.wip-end-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .wip-participants-text {
     width: 8rem;
     margin-right: 1rem;
+    color: #555555;
+}
+
+.wip-participants-text-mobile {
+    font-size: 0.75rem;
+    color: #555555;
 }
 
 .admission-confirm-button {
     padding: 0 1rem;
+}
+
+.admission-confirm-button-mobile {
+    margin-top: 0.25rem;
 }
 
 

@@ -6,7 +6,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    background-color: #F4F1F1;
+    background-color: #F8F9FB;
+}
+
+.home-mobile {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    background-color: #F8F9FB;
 }
 
 .home-contents {
@@ -14,6 +25,16 @@
     width: 55rem;
     padding-top: 7rem;
     padding-bottom: 2rem;
+}
+
+.home-contents-mobile {
+    flex: 1;
+    width: calc(100% - 2rem);
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 @media (max-width: 55rem) {
@@ -33,13 +54,30 @@
     align-items: center;
 }
 
+.home-greetings-box-mobile {
+    width: 100%;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .home-greetings-emoji {
     font-size: 4rem;
+}
+
+.home-greetings-emoji-mobile {
+    font-size: 3rem;
 }
 
 .home-greetings-text {
     margin-left: 1rem;
     font-size: 1.5rem;
+}
+
+.home-greetings-text-mobile {
+    margin-left: 1rem;
+    font-size: 1rem;
 }
 
 .reservation-box {
@@ -51,11 +89,15 @@
     margin-right: 0.25rem;
 }
 
+.reservation-box-mobile > * {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
 .reservation-room-list-box {
     display: flex;
     flex-direction: row;
     align-items: center;
-    
 }
 
 .reservation-room-title {
@@ -98,6 +140,14 @@
     cursor: pointer;
 }
 
+.gray-dropdown-mobile {
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
 .reservation-date-calendar {
     position: fixed;
     border-radius: 0.75rem;
@@ -114,6 +164,7 @@
 }
 
 
+/* Repetition Modal */
 .rep-modal-background {
     position: fixed;
     width: 100%;
@@ -126,6 +177,12 @@
 
 .rep-modal {
     width: 20rem;
+    background-color: white;
+    padding: 1rem;
+}
+
+.rep-modal-mobile {
+    width: calc(100% - 4rem);
     background-color: white;
     padding: 1rem;
 }

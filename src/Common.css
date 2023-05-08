@@ -27,12 +27,26 @@
     padding: 1rem;
 }
 
+.contents-box-mobile {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2rem);
+    background-color: white;
+    border-radius: 2rem;
+    padding: 1rem;
+}
+
+.contents-with-title-box-mobile {
+    width: calc(100% - 2rem);
+}
+
 .contents-box-title-text {
     font-size: 1.25rem;
     font-weight: 600;
 }
 
 .red-box {
+    min-height: 2.5rem;
     background-color: #C31632;
     border-radius: 0.5rem;
     display: flex;

@@ -3,8 +3,14 @@ import Navigation from './Navigation';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
+import { isMobile } from 'react-device-detect';
 
 function Home() {
+  const mobilable = (str) => {
+    if (isMobile) return str + '-mobile'
+    else return str
+  }
+
   const [reservationDate, setReservationDate] = useState(new Date());
   const [showsCalendar, setShowsCalendar] = useState(false);
   const [members, setMembers] = useState([]);
@@ -55,18 +61,18 @@ function Home() {
   }
 
   return (
-    <div className='home'>
+    <div className={mobilable('home')}>
       <Navigation />
-      <div className='home-contents'>
-        <div className='home-greetings-box'>
-          <a className='home-greetings-emoji'>🙌</a>
-          <a className='home-greetings-text semi-bold'>강한빛님,<br/>회의실 예약 시스템에 오신 것을 환영합니다!</a>
+      <div className={mobilable('home-contents')}>
+        <div className={mobilable('home-greetings-box')}>
+          <a className={mobilable('home-greetings-emoji')}>🙌</a>
+          <a className={`${mobilable('home-greetings-text')} semi-bold`}>강한빛님,<br/>{isMobile ? '오늘도 방문해주셔서 감사합니다!' : '회의실 예약 시스템에 오신 것을 환영합니다!'}</a>
         </div>
 
-        <div className='reservation-box contents-box margin-top-2rem'>
+        <div className={`${mobilable('reservation-box')} ${mobilable('contents-box')} margin-top-1rem`}>
           <div className='gray-box'>
             <img src='/img/room.png' className='gray-box-icon'/>
-            <select className='gray-dropdown text-ellipsis'>
+            <select className={`${mobilable('gray-dropdown')} 'text-ellipsis'`}>
               <option>회의실 명</option>
               <option>835 회의실</option>
               <option>836 회의실</option>
@@ -80,7 +86,7 @@ function Home() {
             <img src='/img/clock.png' className='gray-box-icon'/>
             <a className='gray-box-text'>16:00 ~ 17:30</a>
           </div>
-          <div className='search-box gray-box'>
+          <div className={`gray-box ${mobilable('search-box')}`}>
             <img src='/img/search.png' className='gray-box-icon'/>
             <input className='search-box-input gray-box-text text-ellipsis' placeholder={members.length > 0 ? members.join(", ") : "참여 인원 이름 검색"}></input>
           </div>
@@ -94,15 +100,16 @@ function Home() {
         </div>
         {showsCalendar && <Calendar className='reservation-date-calendar' onChange={onChangeReservationDate} value={reservationDate}/>}
 
-        <div className='margin-top-2rem'>
+        <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
           <a className='contents-box-title-text'>현재 진행 중인 회의</a>
-          <div className='contents-box margin-top-1rem'>
+          <div className={`${mobilable('contents-box')} margin-top-1rem`}>
             <a>TEST</a>
           </div>
         </div>
-        <div className='margin-top-2rem'>
+
+        <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
           <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
-          <div className='reservation-room-list-box contents-box margin-top-1rem'>
+          <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
             <a className='reservation-room-title'>835 회의실</a>
             <a className='reservation-room-title'>836 회의실</a>
           </div>
@@ -111,7 +118,7 @@ function Home() {
 
       {showsRepModal &&
       <div className='rep-modal-background'>
-        <div className='rep-modal'>
+        <div className={mobilable('rep-modal')}>
           <div className='rep-modal-title-box'>
             <a className='rep-modal-title'>반복 예약 설정</a>
             <a className='cursor-pointer semi-bold' onClick={() => setShowsRepModal(false)}>X</a>

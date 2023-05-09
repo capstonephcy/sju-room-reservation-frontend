@@ -1,10 +1,22 @@
 import './MyPage.css';
 import Navigation from './Navigation';
-import { BASE_URL, mobilable } from '../Common';
+import { BASE_URL, fetchUserProfile, mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function MyPage() {
     const navigate = useNavigate();
+
+    const [userProfile, setUserProfile] = useState(null);
+
+    useEffect(() => {
+        fetchUserProfile((data) => { setUserProfile(data.userProfile); },
+        () => {
+            alert("정보를 불러오는 데 실패했습니다.");
+            navigate("/login");
+        }
+        );
+    }, []);
 
     const toggleLogout = async (event) => {
         event.preventDefault();
@@ -35,7 +47,7 @@ function MyPage() {
                     <div className={`${mobilable('profile-box')} ${mobilable('contents-box')} margin-top-1rem`}>
                         <img className='profile-img' src='/img/sample.png'/>
                         <div className='profile-contents-box'>
-                            <a className={mobilable('id-name-text')}>18011542 강한빛</a>
+                            <a className={mobilable('id-name-text')}>{`${userProfile.department} ${userProfile.name}`}</a>
                             <div className={mobilable('profile-command-box')}>
                                 <a className='profile-command-text' onClick={toggleLogout}>· 로그아웃</a>
                                 <a className='profile-command-text'>· 회원 탈퇴</a>

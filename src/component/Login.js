@@ -9,6 +9,12 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            toggleLogin(event);
+        }
+    };
+
     const toggleLogin = async (event) => {
         event.preventDefault();
         const response = await fetch(BASE_URL + '/users/auths/login', {
@@ -37,20 +43,28 @@ function Login() {
                 <a className='login-title-kor semi-bold'>포탈 로그인</a>
                 <a className='login-title-eng semi-bold'>PORTAL LOGIN</a>
 
-                <div className='login-input-box-list'>
+                <form className='login-input-box-list'>
                     <div className='login-input-box'>
                         <img src="/img/user.png" className="login-input-icon" alt="logo" />
-                        <input type='text' className='login-input' value={username} onChange={(event) => setUsername(event.target.value)} on placeholder='학번' />
+                        <input type='text' className='login-input' placeholder='학번'
+                        value={username}
+                        onChange={(event) => setUsername(event.target.value)}
+                        onKeyDown={handleKeyDown}
+                        />
                     </div>
                     <div className='login-input-box'>
                         <img src="/img/password.png" className="login-input-icon" alt="logo" />
-                        <input type='password' className='login-input' value={password} onChange={(event) => setPassword(event.target.value)} placeholder='비밀번호' />
+                        <input type='password' className='login-input' placeholder='비밀번호'
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        onKeyDown={handleKeyDown}
+                        />
                     </div>
 
                     <div className='login-button cursor-pointer' onClick={toggleLogin}>
                         <a className='login-button-text semi-bold'>로그인</a>
                     </div>
-                </div>
+                </form>
 
                 <div className='find-box'>
                     <a className='find-text semi-bold cursor-pointer'>아이디 찾기</a>

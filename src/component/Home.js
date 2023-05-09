@@ -4,13 +4,9 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import { mobilable } from '../Common';
 
 function Home() {
-  const mobilable = (str) => {
-    if (isMobile) return str + '-mobile'
-    else return str
-  }
-
   const [reservationDate, setReservationDate] = useState(new Date());
   const [showsCalendar, setShowsCalendar] = useState(false);
   const [members, setMembers] = useState([]);

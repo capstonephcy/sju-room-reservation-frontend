@@ -1,16 +1,10 @@
 import './MyPage.css';
 import Navigation from './Navigation';
-import { isMobile } from 'react-device-detect';
-import { BASE_URL } from '../Common';
+import { BASE_URL, mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
 
 function MyPage() {
     const navigate = useNavigate();
-    
-    const mobilable = (str) => {
-        if (isMobile) return str + '-mobile'
-        else return str
-    }
 
     const toggleLogout = async (event) => {
         event.preventDefault();

@@ -47,7 +47,7 @@ function MyPage() {
                     <div className={`${mobilable('profile-box')} ${mobilable('contents-box')} margin-top-1rem`}>
                         <img className='profile-img' src='/img/sample.png'/>
                         <div className='profile-contents-box'>
-                            <a className={mobilable('id-name-text')}>{`${userProfile.department} ${userProfile.name}`}</a>
+                            <a className={mobilable('id-name-text')}>{`${userProfile?.department} ${userProfile?.name}`}</a>
                             <div className={mobilable('profile-command-box')}>
                                 <a className='profile-command-text' onClick={toggleLogout}>· 로그아웃</a>
                                 <a className='profile-command-text'>· 회원 탈퇴</a>

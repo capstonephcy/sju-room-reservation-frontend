@@ -2,11 +2,25 @@ import './Home.css';
 import Navigation from './Navigation';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { mobilable } from '../Common';
+import { fetchUserProfile, mobilable } from '../Common';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+  const navigate = useNavigate();
+
+  const [userProfile, setUserProfile] = useState(null);
+
+  useEffect(() => {
+    fetchUserProfile((data) => { setUserProfile(data.userProfile); },
+      () => {
+        alert("정보를 불러오는 데 실패했습니다.");
+        navigate("/login");
+      }
+    );
+  }, []);
+
   const [reservationDate, setReservationDate] = useState(new Date());
   const [showsCalendar, setShowsCalendar] = useState(false);
   const [members, setMembers] = useState([]);
@@ -62,7 +76,7 @@ function Home() {
       <div className={mobilable('home-contents')}>
         <div className={mobilable('home-greetings-box')}>
           <a className={mobilable('home-greetings-emoji')}>🙌</a>
-          <a className={`${mobilable('home-greetings-text')} semi-bold`}>강한빛님,<br/>{isMobile ? '오늘도 방문해주셔서 감사합니다!' : '회의실 예약 시스템에 오신 것을 환영합니다!'}</a>
+          <a className={`${mobilable('home-greetings-text')} semi-bold`}>{userProfile?.name}님,<br/>{isMobile ? '오늘도 방문해주셔서 감사합니다!' : '회의실 예약 시스템에 오신 것을 환영합니다!'}</a>
         </div>
 
         <div className={`${mobilable('reservation-box')} ${mobilable('contents-box')} margin-top-1rem`}>

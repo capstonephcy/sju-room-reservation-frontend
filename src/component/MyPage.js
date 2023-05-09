@@ -22,7 +22,7 @@ function MyPage() {
             alert("로그아웃에 성공했습니다.");
             navigate("/login");
         } else {
-            alert("로그아웃에 실패했습니다: " + data._metadata.message);
+            alert("로그아웃에 실패했습니다.");
         }
     };
 

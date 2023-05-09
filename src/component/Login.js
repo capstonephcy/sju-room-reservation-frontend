@@ -23,7 +23,7 @@ function Login() {
         const statusCode = response.status;
         if (statusCode == 200) {
             localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('refreshToken', data.refreshToken.refreshToken);
             alert("로그인에 성공했습니다.");
             navigate("/");
         } else {

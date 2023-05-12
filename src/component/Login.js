@@ -1,6 +1,6 @@
 import './Login.css';
 import { useState } from 'react';
-import { BASE_URL } from '../Common';
+import { BASE_URL, fetchUserProfile } from '../Common';
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -31,8 +31,18 @@ function Login() {
             if (statusCode == 200) {
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken.refreshToken);
-                alert("로그인에 성공했습니다.");
-                navigate("/");
+
+                fetchUserProfile((data) => {
+                    if (data.userProfile.permissions[0] == "ADMIN" || data.userProfile.permissions[0] == "ROOT_ADMIN") {
+                        alert("로그인에 성공했습니다.");
+                        navigate("/admin");
+                    } else {
+                        alert("로그인에 성공했습니다.");
+                        navigate("/");
+                    }
+                },
+                    () => {alert("로그인에 실패했습니다.");}
+                );
             } else {
                 alert("로그인에 실패했습니다.");
             }

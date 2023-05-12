@@ -35,7 +35,7 @@ function Login() {
                 fetchUserProfile((data) => {
                     if (data.userProfile.permissions[0] == "ADMIN" || data.userProfile.permissions[0] == "ROOT_ADMIN") {
                         alert("로그인에 성공했습니다.");
-                        navigate("/admin");
+                        navigate("/statics");
                     } else {
                         alert("로그인에 성공했습니다.");
                         navigate("/");

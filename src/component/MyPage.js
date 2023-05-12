@@ -88,7 +88,6 @@ function MyPage() {
                             <div className={mobilable('profile-command-box')}>
                                 <a className='profile-command-text' onClick={toggleLogout}>· 로그아웃</a>
                                 <a className='profile-command-text' onClick={() => { setShowsUpdatePasswordModal(true) }}>· 비밀번호 변경</a>
-                                <a className='profile-command-text'>· 회원 탈퇴</a>
                             </div>
                         </div>
                     </div>

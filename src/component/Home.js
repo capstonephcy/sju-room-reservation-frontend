@@ -136,11 +136,10 @@ function Home() {
       </div>
 
       {showsRepModal &&
-      <div className='rep-modal-background'>
-        <div className={mobilable('rep-modal')}>
-          <div className='rep-modal-title-box'>
-            <a className='rep-modal-title'>반복 예약 설정</a>
-            <a className='cursor-pointer semi-bold' onClick={() => setShowsRepModal(false)}>X</a>
+      <div className='modal-background'>
+        <div className={mobilable('modal')}>
+          <div className='modal-title-box'>
+            <a className='modal-title'>반복 예약 설정</a>
           </div>
           <div className='rep-modal-option-box'>
             <a className={repCycle == REP_CYCLE.DAY ? 'rep-modal-option-selected' : 'rep-modal-option'} onClick={() => toggleRepCycle(REP_CYCLE.DAY)}>매일</a>
@@ -163,8 +162,13 @@ function Home() {
           <Calendar className='end-date-calendar' value={endDate} onChange={setEndDate}/>
           }
 
-          <div className='rep-reservation-button' onClick={toggleReservationButtonInRepModal}>
-            <a className='red-box-text'>예약하기</a>
+          <div className='modal-button-box'>
+            <div className='modal-cancel-button' onClick={() => { setShowsRepModal(false) }}>
+                <a className='modal-cancel-text'>취소</a>
+            </div>
+            <div className='modal-ok-button' onClick={toggleReservationButtonInRepModal}>
+              <a className='red-box-text'>예약하기</a>
+            </div>
           </div>
         </div>
       </div>

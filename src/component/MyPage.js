@@ -38,6 +38,12 @@ function MyPage() {
         }
     };
 
+    const [showsUpdatePasswordModal, setShowsUpdatePasswordModal] = useState(false);
+
+    const toggleUpdatePassword = async (event) => {
+
+    }
+
     return (
         <div className={mobilable('home')}>
             <Navigation />
@@ -50,12 +56,40 @@ function MyPage() {
                             <a className={mobilable('id-name-text')}>{`${userProfile?.department} ${userProfile?.name}`}</a>
                             <div className={mobilable('profile-command-box')}>
                                 <a className='profile-command-text' onClick={toggleLogout}>· 로그아웃</a>
+                                <a className='profile-command-text' onClick={() => { setShowsUpdatePasswordModal(true) }}>· 비밀번호 변경</a>
                                 <a className='profile-command-text'>· 회원 탈퇴</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        {showsUpdatePasswordModal &&
+        <div className='modal-background'>
+            <div className={mobilable('modal')}>
+                <div className='modal-title-box'>
+                    <a className='modal-title'>비밀번호 변경</a>
+                </div>
+
+                <div className='column-box margin-top-1rem'>
+                    <a>현재 비밀번호</a>
+                    <input type="password" className='update-password-input'/>
+                    <a className='margin-top-05rem'>새 비밀번호</a>
+                    <input type="password" className='update-password-input'/>
+                    <a className='margin-top-05rem'>새 비밀번호 확인</a>
+                    <input type="password" className='update-password-input'/>
+                </div>
+            
+                <div className='modal-button-box'>
+                    <div className='modal-cancel-button' onClick={() => { setShowsUpdatePasswordModal(false) }}>
+                        <a className='modal-cancel-text'>취소</a>
+                    </div>
+                    <div className='modal-ok-button' onClick={toggleUpdatePassword}>
+                        <a className='red-box-text'>변경하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
         </div>
     )
 }

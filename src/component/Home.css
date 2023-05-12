@@ -168,39 +168,6 @@
 
 
 /* Repetition Modal */
-.rep-modal-background {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #F8F9FB80;
-}
-
-.rep-modal {
-    width: 20rem;
-    background-color: white;
-    padding: 1rem;
-}
-
-.rep-modal-mobile {
-    width: calc(100% - 4rem);
-    background-color: white;
-    padding: 1rem;
-}
-
-.rep-modal-title-box {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.rep-modal-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-}
-
 .rep-modal-option-box {
     width: 100%;
     height: 2rem;
@@ -251,16 +218,6 @@
 .rep-end-count-description {
     margin-left: 0.25rem;
     font-weight: 600;
-}
-
-.rep-reservation-button {
-    background-color: #C31632;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
-    height: 2rem;
-    cursor: pointer;
 }
 
 .end-date-calendar {

@@ -17,22 +17,26 @@ function Login() {
 
     const toggleLogin = async (event) => {
         event.preventDefault();
-        const response = await fetch(BASE_URL + '/users/auths/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ username, password })
-        });
-
-        const data = await response.json();
-        const statusCode = response.status;
-        if (statusCode == 200) {
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.refreshToken.refreshToken);
-            alert("로그인에 성공했습니다.");
-            navigate("/");
-        } else {
+        try {
+            const response = await fetch(BASE_URL + '/users/auths/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+    
+            const data = await response.json();
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('refreshToken', data.refreshToken.refreshToken);
+                alert("로그인에 성공했습니다.");
+                navigate("/");
+            } else {
+                alert("로그인에 실패했습니다.");
+            }
+        } catch (error) {
             alert("로그인에 실패했습니다.");
         }
     };

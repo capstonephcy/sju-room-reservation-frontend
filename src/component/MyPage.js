@@ -20,7 +20,7 @@ function MyPage() {
 
     const toggleLogout = async (event) => {
         event.preventDefault();
-        const token = localStorage.getItem('refreshToken');
+        const token = localStorage.getItem('accessToken');
         const response = await fetch(BASE_URL + '/users/auths/logout', {
             method: 'GET',
             headers: {
@@ -52,7 +52,7 @@ function MyPage() {
         }
 
         try {
-            const token = localStorage.getItem('refreshToken');
+            const token = localStorage.getItem('accessToken');
             const response = await fetch(BASE_URL + '/users/profiles/password', {
                 method: 'PUT',
                 headers: {

@@ -9,7 +9,7 @@ export const mobilable = (str) => {
 
 export const fetchUserProfile = async (onSuccess, onFailure) => {
     try {
-      const token = localStorage.getItem('refreshToken');
+      const token = localStorage.getItem('accessToken');
       const response = await fetch(BASE_URL + '/users/profiles', {
         method: 'GET',
         headers: {

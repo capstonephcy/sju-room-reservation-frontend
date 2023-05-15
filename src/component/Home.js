@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { BASE_URL, mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
+import RoomModal from './RoomModal';
 
 function Home() {
   const navigate = useNavigate();
@@ -61,6 +62,8 @@ function Home() {
     }
   }
 
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
   // rep-modal
   const [showsRepModal, setShowsRepModal] = useState(false);
   const REP_CYCLE = { DAY: "DAY", WEEK: "WEEK", MONTH: "MONTH" };
@@ -98,6 +101,7 @@ function Home() {
           <a className={`${mobilable('home-greetings-text')} semi-bold`}>{user?.name}님,<br/>{isMobile ? '오늘도 방문해주셔서 감사합니다!' : '회의실 예약 시스템에 오신 것을 환영합니다!'}</a>
         </div>
 
+
         <div className={`${mobilable('reservation-box')} ${mobilable('contents-box')} margin-top-1rem`}>
           <div className='gray-box'>
             <img src='/img/room.png' className='gray-box-icon'/>
@@ -129,6 +133,7 @@ function Home() {
         </div>
         {showsCalendar && <Calendar className='reservation-date-calendar' onChange={onChangeReservationDate} value={reservationDate}/>}
 
+
         <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
           <a className='contents-box-title-text'>현재 진행 중인 회의</a>
           <div className={`${mobilable('contents-box')} ${mobilable('wip-box')} margin-top-1rem`}>
@@ -145,15 +150,17 @@ function Home() {
           </div>
         </div>
 
+
         <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
           <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
           <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
             {rooms.map((item) => (
-              <a className='reservation-room-title'>{item.name}</a>
+              <a className='reservation-room-title' onClick={() => { setSelectedRoom(item) }}>{item.name}</a>
             ))}
           </div>
         </div>
       </div>
+
 
       {showsRepModal &&
       <div className='modal-background'>
@@ -192,6 +199,10 @@ function Home() {
           </div>
         </div>
       </div>
+      }
+
+      {selectedRoom != null &&
+        <RoomModal room={selectedRoom} closeModal={() => { setSelectedRoom(null) }} />
       }
     </div>
   );

@@ -1,11 +1,11 @@
 import './Statics.css';
 import { BASE_URL, fetchUserProfile, mobilable } from '../Common';
-import AdminNavigation from './AdminNavigation';
+import Navigation from './Navigation';
 
 function Statics() {
     return (
         <div className={mobilable('home')}>
-            <AdminNavigation />
+            <Navigation />
             <div className={mobilable('home-contents')}>
 
             </div>

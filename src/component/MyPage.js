@@ -3,11 +3,10 @@ import Navigation from './Navigation';
 import { BASE_URL, mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useUser } from './UserContext';
 
 function MyPage() {
     const navigate = useNavigate();
-    const { user, setUser } = useUser();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
         if (user == null) {
@@ -29,7 +28,7 @@ function MyPage() {
         const data = await response.json();
         const statusCode = response.status;
         if (statusCode == 200) {
-            setUser(null);
+            localStorage.setItem("user", null);
             alert("로그아웃에 성공했습니다.");
             navigate("/login");
         } else {

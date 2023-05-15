@@ -2,11 +2,9 @@ import './Login.css';
 import { useState } from 'react';
 import { BASE_URL } from '../Common';
 import { useNavigate } from "react-router-dom";
-import { useUser } from './UserContext';
 
 function Login() {
     const navigate = useNavigate();
-    const { setUser } = useUser();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -56,7 +54,7 @@ function Login() {
             const data = await response.json();
             const statusCode = response.status;
             if (statusCode == 200) {
-                setUser(data.userProfile);
+                localStorage.setItem("user", JSON.stringify(data.userProfile));
                 alert("로그인에 성공했습니다.");
                 if (data.userProfile.permissions[0] == "ADMIN" || data.userProfile.permissions[0] == "ROOT_ADMIN") {
                     navigate("/statics");

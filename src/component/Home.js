@@ -6,11 +6,10 @@ import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from './UserContext';
 
 function Home() {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
       if (user == null) {

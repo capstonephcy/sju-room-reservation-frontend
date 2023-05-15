@@ -1,10 +1,12 @@
 import './Login.css';
 import { useState } from 'react';
-import { BASE_URL, fetchUserProfile } from '../Common';
+import { BASE_URL } from '../Common';
 import { useNavigate } from "react-router-dom";
+import { useUser } from './UserContext';
 
 function Login() {
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -31,18 +33,7 @@ function Login() {
             if (statusCode == 200) {
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken.refreshToken);
-
-                fetchUserProfile((data) => {
-                    if (data.userProfile.permissions[0] == "ADMIN" || data.userProfile.permissions[0] == "ROOT_ADMIN") {
-                        alert("로그인에 성공했습니다.");
-                        navigate("/statics");
-                    } else {
-                        alert("로그인에 성공했습니다.");
-                        navigate("/");
-                    }
-                },
-                    () => {alert("로그인에 실패했습니다.");}
-                );
+                fetchUserProfile()
             } else {
                 alert("로그인에 실패했습니다.");
             }
@@ -50,6 +41,35 @@ function Login() {
             alert("로그인에 실패했습니다.");
         }
     };
+
+    const fetchUserProfile = async () => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const response = await fetch(BASE_URL + '/users/profiles', {
+                method: 'GET',
+                headers: {
+                    'Request-Type': 'CURRENT',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            const data = await response.json();
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                setUser(data.userProfile);
+                alert("로그인에 성공했습니다.");
+                if (data.userProfile.permissions[0] == "ADMIN" || data.userProfile.permissions[0] == "ROOT_ADMIN") {
+                    navigate("/statics");
+                } else {
+                    navigate("/");
+                }
+            } else {
+                alert("로그인에 실패했습니다.");
+            }
+        } catch (error) {
+            alert("로그인에 실패했습니다.");
+        }
+    }
 
     return (
         <div className='login'>

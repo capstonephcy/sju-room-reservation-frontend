@@ -1,22 +1,20 @@
 import './MyPage.css';
 import Navigation from './Navigation';
-import { BASE_URL, fetchUserProfile, mobilable } from '../Common';
+import { BASE_URL, mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useUser } from './UserContext';
 
 function MyPage() {
     const navigate = useNavigate();
-
-    const [userProfile, setUserProfile] = useState(null);
+    const { user, setUser } = useUser();
 
     useEffect(() => {
-        fetchUserProfile((data) => { setUserProfile(data.userProfile); },
-        () => {
-            alert("정보를 불러오는 데 실패했습니다.");
+        if (user == null) {
+            alert("로그인 후 이용해주세요.");
             navigate("/login");
         }
-        );
-    }, []);
+    });
 
     const toggleLogout = async (event) => {
         event.preventDefault();
@@ -31,6 +29,7 @@ function MyPage() {
         const data = await response.json();
         const statusCode = response.status;
         if (statusCode == 200) {
+            setUser(null);
             alert("로그아웃에 성공했습니다.");
             navigate("/login");
         } else {
@@ -84,7 +83,7 @@ function MyPage() {
                     <div className={`${mobilable('profile-box')} ${mobilable('contents-box')} margin-top-1rem`}>
                         <img className='profile-img' src='/img/sample.png'/>
                         <div className='profile-contents-box'>
-                            <a className={mobilable('id-name-text')}>{`${userProfile?.department} ${userProfile?.name}`}</a>
+                            <a className={mobilable('id-name-text')}>{`${user?.department} ${user?.name}`}</a>
                             <div className={mobilable('profile-command-box')}>
                                 <a className='profile-command-text' onClick={toggleLogout}>· 로그아웃</a>
                                 <a className='profile-command-text' onClick={() => { setShowsUpdatePasswordModal(true) }}>· 비밀번호 변경</a>

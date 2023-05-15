@@ -4,7 +4,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { mobilable } from '../Common';
+import { BASE_URL, mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
@@ -16,7 +16,29 @@ function Home() {
           alert("로그인 후 이용해주세요.");
           navigate("/login");
       }
+      fetchRoom();
   });
+
+  const [rooms, setRooms] = useState([]);
+  const BUILDING = "대양AI센터";
+  const pageIdx = 0;
+  const PAGE_LIMIT = 20;
+  const fetchRoom = async () => {
+    const response = await fetch(BASE_URL + '/rooms/profiles?building=' + BUILDING + '&pageIdx=' + pageIdx + '&pageLimit=' + PAGE_LIMIT, {
+        method: 'GET',
+        headers: {
+            'Request-Type': 'BUILDING',
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+        }
+    });
+
+    const data = await response.json();
+    const statusCode = response.status;
+    if (statusCode == 200) {
+      setRooms(data.rooms);
+    }
+  }
 
   const [reservationDate, setReservationDate] = useState(new Date());
   const [showsCalendar, setShowsCalendar] = useState(false);
@@ -126,8 +148,9 @@ function Home() {
         <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
           <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
           <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
-            <a className='reservation-room-title'>835 회의실</a>
-            <a className='reservation-room-title'>836 회의실</a>
+            {rooms.map((item) => (
+              <a className='reservation-room-title'>{item.name}</a>
+            ))}
           </div>
         </div>
       </div>

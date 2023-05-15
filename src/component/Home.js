@@ -1,52 +1,31 @@
 import './Home.css';
 import Navigation from './Navigation';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { BASE_URL, mobilable } from '../Common';
+import { mobilable } from '../Common';
 import { useNavigate } from 'react-router-dom';
 import RoomModal from './RoomModal';
 import RepModal from './RepModal';
 import ReservationBox from './ReservationBox';
+import RoomListBox, { fetchRoom } from './RoomListBox';
 
 function Home() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const [rooms, setRooms] = useState([]);
+  const [showingRoom, setShowingRoom] = useState(null);
+
+  const [showsRepModal, setShowsRepModal] = useState(false);
 
   useEffect(() => {
       if (user == null) {
           alert("로그인 후 이용해주세요.");
           navigate("/login");
       }
-      fetchRoom();
+      fetchRoom(setRooms);
   });
-
-  const [rooms, setRooms] = useState([]);
-  const BUILDING = "대양AI센터";
-  const pageIdx = 0;
-  const PAGE_LIMIT = 20;
-  const fetchRoom = async () => {
-    const response = await fetch(BASE_URL + '/rooms/profiles?building=' + BUILDING + '&pageIdx=' + pageIdx + '&pageLimit=' + PAGE_LIMIT, {
-        method: 'GET',
-        headers: {
-            'Request-Type': 'BUILDING',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-            'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
-        }
-    });
-
-    const data = await response.json();
-    const statusCode = response.status;
-    if (statusCode == 200) {
-      setRooms(data.rooms);
-    }
-  }
-
-  const [selectedRoom, setSelectedRoom] = useState(null);
-
-  // rep-modal
-  const [showsRepModal, setShowsRepModal] = useState(false);
 
   return (
     <div className={mobilable('home')}>
@@ -75,24 +54,16 @@ function Home() {
           </div>
         </div>
 
-
-        <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
-          <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
-          <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
-            {rooms.map((item) => (
-              <a className='reservation-room-title' onClick={() => { setSelectedRoom(item) }}>{item.name}</a>
-            ))}
-          </div>
-        </div>
+        <RoomListBox rooms={rooms} showingRoom={showingRoom} setShowingRoom={setShowingRoom} />
       </div>
 
 
       {showsRepModal &&
-        <RepModal closeModal={() => { setShowsRepModal(false); }}/>
+        <RepModal closeModal={() => { setShowsRepModal(false); }} />
       }
 
-      {selectedRoom != null &&
-        <RoomModal room={selectedRoom} closeModal={() => { setSelectedRoom(null); }} />
+      {showingRoom != null &&
+        <RoomModal room={showingRoom} closeModal={() => { setShowingRoom(null); }} />
       }
     </div>
   );

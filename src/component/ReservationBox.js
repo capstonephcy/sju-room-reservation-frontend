@@ -6,7 +6,7 @@ import './ReservationBox.css';
 
 function ReservationBox({ rooms }) {
     const [selectedRoom, setSelectedRoom] = useState(null);
-    const [reservationDate, setReservationDate] = useState(new Date());
+    const [date, setDate] = useState(new Date());
     const [start, setStart] = useState("09:00");
     const [end, setEnd] = useState("09:00");
     const [members, setMembers] = useState([]);
@@ -15,8 +15,8 @@ function ReservationBox({ rooms }) {
     const [showsCalendar, setShowsCalendar] = useState(false);
     const [showsRepModal, setShowsRepModal] = useState(false);
 
-    const onChangeReservationDate = reservationDate => {
-        setReservationDate(reservationDate);
+    const onChangeDate = date => {
+        setDate(date);
         setShowsCalendar(false);
     };
 
@@ -44,11 +44,11 @@ function ReservationBox({ rooms }) {
                 },
                 body: JSON.stringify({
                     roomId: selectedRoom.id,
-                    date: convertDateToYYYYMMDD(reservationDate),
+                    date: convertDateToYYYYMMDD(date),
                     start: start,
                     end: end,
                     attendants: [
-                        // TODO
+                        // TODO: members.map { it.id }
                     ]
                 })
             });
@@ -84,7 +84,7 @@ function ReservationBox({ rooms }) {
                 </div>
                 <div className='gray-box' onClick={toggleDate}>
                     <img src='/img/schedule.png' className='gray-box-icon'/>
-                    <a className='gray-box-text'>{reservationDate.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' })}</a>
+                    <a className='gray-box-text'>{date.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' })}</a>
                 </div>
                 <div className='gray-box'>
                     <img src='/img/clock.png' className='gray-box-icon'/>
@@ -110,9 +110,9 @@ function ReservationBox({ rooms }) {
                     <a className='red-box-text'>예약하기</a>
                 </div>
             </div>
-            {showsCalendar && <Calendar className='reservation-date-calendar' onChange={onChangeReservationDate} value={reservationDate}/>}
+            {showsCalendar && <Calendar className='reservation-date-calendar' onChange={onChangeDate} value={date}/>}
 
-            {showsRepModal && <RepModal closeModal={() => { setShowsRepModal(false); }} />}
+            {showsRepModal && <RepModal selectedRoom={selectedRoom} date={date} start={start} end={end} members={members} closeModal={() => { setShowsRepModal(false); }} />}
         </div>
     );
 }

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import { BASE_URL, convertDateToYYYYMMDD, mobilable } from "../Common";
+import RepModal from "./RepModal";
 import './ReservationBox.css';
 
-function ReservationBox({ rooms, setShowsRepModal }) {
+function ReservationBox({ rooms }) {
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [reservationDate, setReservationDate] = useState(new Date());
     const [start, setStart] = useState("09:00");
@@ -12,6 +13,7 @@ function ReservationBox({ rooms, setShowsRepModal }) {
     const [isRepChecked, setIsRepChecked] = useState(false);
 
     const [showsCalendar, setShowsCalendar] = useState(false);
+    const [showsRepModal, setShowsRepModal] = useState(false);
 
     const onChangeReservationDate = reservationDate => {
         setReservationDate(reservationDate);
@@ -109,6 +111,8 @@ function ReservationBox({ rooms, setShowsRepModal }) {
                 </div>
             </div>
             {showsCalendar && <Calendar className='reservation-date-calendar' onChange={onChangeReservationDate} value={reservationDate}/>}
+
+            {showsRepModal && <RepModal closeModal={() => { setShowsRepModal(false); }} />}
         </div>
     );
 }

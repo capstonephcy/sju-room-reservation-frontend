@@ -14,8 +14,6 @@ function Home() {
   const [rooms, setRooms] = useState([]);
   const [showingRoom, setShowingRoom] = useState(null);
 
-  const [showsRepModal, setShowsRepModal] = useState(false);
-
   useEffect(() => {
     fetchRoom(setRooms);
   });
@@ -25,12 +23,11 @@ function Home() {
       <Navigation />
       <div className={mobilable('home-contents')}>
         <HomeGreetings />
-        <ReservationBox rooms={rooms} setShowsRepModal={setShowsRepModal} />
+        <ReservationBox rooms={rooms} />
         <OngoingMeeting />
         <RoomListBox rooms={rooms} showingRoom={showingRoom} setShowingRoom={setShowingRoom} />
       </div>
 
-      {showsRepModal && <RepModal closeModal={() => { setShowsRepModal(false); }} />}
       {showingRoom != null && <RoomModal room={showingRoom} closeModal={() => { setShowingRoom(null); }} />}
     </div>
   );

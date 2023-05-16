@@ -1,14 +1,17 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
-import { convertDateToYYYYMMDD, mobilable } from "../Common";
+import { BASE_URL, convertDateToYYYYMMDD, mobilable } from "../Common";
 import './ReservationBox.css';
 
 function ReservationBox({ rooms, setShowsRepModal }) {
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [reservationDate, setReservationDate] = useState(new Date());
-    const [showsCalendar, setShowsCalendar] = useState(false);
+    const [start, setStart] = useState("09:00");
+    const [end, setEnd] = useState("09:00");
     const [members, setMembers] = useState([]);
     const [isRepChecked, setIsRepChecked] = useState(false);
+
+    const [showsCalendar, setShowsCalendar] = useState(false);
 
     const onChangeReservationDate = reservationDate => {
         setReservationDate(reservationDate);
@@ -22,25 +25,29 @@ function ReservationBox({ rooms, setShowsRepModal }) {
     const toggleReservationButton = () => {
         if (isRepChecked) setShowsRepModal(true);
         else {
-            createReservation();
+            if (selectedRoom == null) alert("예약 장소를 선택해주세요.");
+            else if (start >= end) alert("예약 종료 시간은 시작 시간 이후로 설정되어야 합니다.");
+            else createReservation();
         }
     }
 
     const createReservation = async () => {
-        alert(selectedRoom.id);
-        alert(convertDateToYYYYMMDD(reservationDate));
-        /*
         try {
             const token = localStorage.getItem('accessToken');
             const response = await fetch(BASE_URL + '/reservation/profiles', {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     roomId: selectedRoom.id,
-                    date: reservationDate,
-
+                    date: convertDateToYYYYMMDD(reservationDate),
+                    start: start,
+                    end: end,
+                    attendants: [
+                        // TODO
+                    ]
                 })
             });
     
@@ -49,11 +56,11 @@ function ReservationBox({ rooms, setShowsRepModal }) {
             if (statusCode == 200) {
                 alert("예약되었습니다.");
             } else {
-                alert("예약에 실패했습니다.");
+                alert("예약에 실패했습니다: " + data._metadata.message);
             }
         } catch (error) {
-            alert("예약에 실패했습니다.");
-        }*/
+            alert("예약에 실패했습니다: " + error);
+        }
     }
 
     return (
@@ -79,11 +86,13 @@ function ReservationBox({ rooms, setShowsRepModal }) {
                 </div>
                 <div className='gray-box'>
                     <img src='/img/clock.png' className='gray-box-icon'/>
-                    <select className={mobilable('gray-dropdown')}>
+                    <select className={mobilable('gray-dropdown')} onChange={(event) => { setStart(event.target.value ); }}>
+                        <option>09:00</option>
                         <option>16:00</option>
                     </select>
                     <a> ~ </a>
-                    <select className={mobilable('gray-dropdown')}>
+                    <select className={mobilable('gray-dropdown')} onChange={(event) => { setEnd(event.target.value ); }}>
+                        <option>09:00</option>
                         <option>17:30</option>
                     </select>
                 </div>

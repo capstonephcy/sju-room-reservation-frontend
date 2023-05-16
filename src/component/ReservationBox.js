@@ -79,9 +79,13 @@ function ReservationBox({ rooms, setShowsRepModal }) {
                 </div>
                 <div className='gray-box'>
                     <img src='/img/clock.png' className='gray-box-icon'/>
-                    <a className='gray-box-text'>16:00</a>
+                    <select className={mobilable('gray-dropdown')}>
+                        <option>16:00</option>
+                    </select>
                     <a> ~ </a>
-                    <a className='gray-box-text'>17:30</a>
+                    <select className={mobilable('gray-dropdown')}>
+                        <option>17:30</option>
+                    </select>
                 </div>
                 <div className={`gray-box ${mobilable('search-box')}`}>
                     <img src='/img/search.png' className='gray-box-icon'/>

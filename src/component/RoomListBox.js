@@ -2,14 +2,12 @@ import { BASE_URL, mobilable } from "../Common";
 
 function RoomListBox({ rooms, setShowingRoom }) {
     return (
-        <div>
-            <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
-                <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
-                <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
-                    {rooms.map((item) => (
-                    <a className='reservation-room-title' onClick={() => { setShowingRoom(item) }}>{item.name}</a>
-                    ))}
-                </div>
+        <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
+            <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
+            <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
+                {rooms.map((item) => (
+                <a className='reservation-room-title' onClick={() => { setShowingRoom(item) }}>{item.name}</a>
+                ))}
             </div>
         </div>
     );

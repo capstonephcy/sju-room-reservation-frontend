@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
-import { mobilable } from "../Common";
+import { convertDateToYYYYMMDD, mobilable } from "../Common";
 
 function ReservationBox({ rooms, setShowsRepModal }) {
+    const [selectedRoom, setSelectedRoom] = useState(null);
     const [reservationDate, setReservationDate] = useState(new Date());
     const [showsCalendar, setShowsCalendar] = useState(false);
     const [members, setMembers] = useState([]);
@@ -20,8 +21,38 @@ function ReservationBox({ rooms, setShowsRepModal }) {
     const toggleReservationButton = () => {
         if (isRepChecked) setShowsRepModal(true);
         else {
-        // TODO: 단기 예약 요청
+            createReservation();
         }
+    }
+
+    const createReservation = async () => {
+        alert(selectedRoom.id);
+        alert(convertDateToYYYYMMDD(reservationDate));
+        /*
+        try {
+            const token = localStorage.getItem('accessToken');
+            const response = await fetch(BASE_URL + '/reservation/profiles', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    roomId: selectedRoom.id,
+                    date: reservationDate,
+
+                })
+            });
+    
+            const data = await response.json();
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                alert("예약되었습니다.");
+            } else {
+                alert("예약에 실패했습니다.");
+            }
+        } catch (error) {
+            alert("예약에 실패했습니다.");
+        }*/
     }
 
     return (
@@ -29,11 +60,16 @@ function ReservationBox({ rooms, setShowsRepModal }) {
             <div className={`${mobilable('reservation-box')} ${mobilable('contents-box')} margin-top-1rem`}>
                 <div className='gray-box'>
                     <img src='/img/room.png' className='gray-box-icon'/>
-                    <select className={`${mobilable('gray-dropdown')} 'text-ellipsis'`}>
-                    <option>회의실 명</option>
-                    {rooms.map((item) => (
-                        <option>{item.name}</option>
-                    ))}
+                    <select className={`${mobilable('gray-dropdown')} 'text-ellipsis'`}
+                    onChange={(event) => { 
+                        const index = event.target.selectedIndex;
+                        if (index == 0) setSelectedRoom(null);
+                        else setSelectedRoom(rooms[index - 1]);
+                    }}>
+                        <option>회의실 명</option>
+                        {rooms.map((item) => (
+                            <option>{item.name}</option>
+                        ))}
                     </select>
                 </div>
                 <div className='gray-box' onClick={toggleDate}>
@@ -42,7 +78,9 @@ function ReservationBox({ rooms, setShowsRepModal }) {
                 </div>
                 <div className='gray-box'>
                     <img src='/img/clock.png' className='gray-box-icon'/>
-                    <a className='gray-box-text'>16:00 ~ 17:30</a>
+                    <a className='gray-box-text'>16:00</a>
+                    <a> ~ </a>
+                    <a className='gray-box-text'>17:30</a>
                 </div>
                 <div className={`gray-box ${mobilable('search-box')}`}>
                     <img src='/img/search.png' className='gray-box-icon'/>

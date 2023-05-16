@@ -1,0 +1,55 @@
+.rep-modal-option-box {
+    width: 100%;
+    height: 2rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.rep-modal-option {
+    border: 0.1rem #C31632 solid;
+    color: #C31632;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.rep-modal-option-selected {
+    background-color: #C31632;
+    color: white;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.rep-end-count-box {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.rep-count-input {
+    width: 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #FFE4E0;
+    border: 0;
+    outline: none;
+}
+
+.rep-end-count-description {
+    margin-left: 0.25rem;
+    font-weight: 600;
+}
+
+.end-date-calendar {
+    margin-top: 1rem;
+}

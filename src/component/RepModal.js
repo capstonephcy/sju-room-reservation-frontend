@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import { mobilable } from "../Common";
+import './RepModal.css';
 
 function RepModal({ closeModal }) {
     const REP_CYCLE = { DAY: "DAY", WEEK: "WEEK", MONTH: "MONTH" };

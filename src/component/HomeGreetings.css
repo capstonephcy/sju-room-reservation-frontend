@@ -1,0 +1,31 @@
+.home-greetings-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.home-greetings-box-mobile {
+    width: 100%;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.home-greetings-emoji {
+    font-size: 4rem;
+}
+
+.home-greetings-emoji-mobile {
+    font-size: 3rem;
+}
+
+.home-greetings-text {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+}
+
+.home-greetings-text-mobile {
+    margin-left: 1rem;
+    font-size: 1rem;
+}

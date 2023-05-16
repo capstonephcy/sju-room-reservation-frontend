@@ -25,10 +25,10 @@ function ReservationBox({ rooms }) {
     }
 
     const toggleReservationButton = () => {
-        if (isRepChecked) setShowsRepModal(true);
+        if (selectedRoom == null) alert("예약 장소를 선택해주세요.");
+        else if (start >= end) alert("예약 종료 시간은 시작 시간 이후로 설정되어야 합니다.");
         else {
-            if (selectedRoom == null) alert("예약 장소를 선택해주세요.");
-            else if (start >= end) alert("예약 종료 시간은 시작 시간 이후로 설정되어야 합니다.");
+            if (isRepChecked) setShowsRepModal(true);
             else createReservation();
         }
     }

@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { BASE_URL, mobilable } from "../Common";
+import RoomModal from "./RoomModal";
 
-function RoomListBox({ rooms, setShowingRoom }) {
+function RoomListBox({ rooms }) {
+    const [showingRoom, setShowingRoom] = useState(null);
+
     return (
         <div className={`${mobilable('contents-with-title-box')} margin-top-2rem`}>
             <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
@@ -9,6 +13,8 @@ function RoomListBox({ rooms, setShowingRoom }) {
                 <a className='reservation-room-title' onClick={() => { setShowingRoom(item) }}>{item.name}</a>
                 ))}
             </div>
+
+            {showingRoom != null && <RoomModal room={showingRoom} closeModal={() => { setShowingRoom(null); }} />}
         </div>
     );
 }

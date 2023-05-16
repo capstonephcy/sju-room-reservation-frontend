@@ -12,7 +12,6 @@ import HomeGreetings from './HomeGreetings';
 
 function Home() {
   const [rooms, setRooms] = useState([]);
-  const [showingRoom, setShowingRoom] = useState(null);
 
   useEffect(() => {
     fetchRoom(setRooms);
@@ -25,10 +24,9 @@ function Home() {
         <HomeGreetings />
         <ReservationBox rooms={rooms} />
         <OngoingMeeting />
-        <RoomListBox rooms={rooms} showingRoom={showingRoom} setShowingRoom={setShowingRoom} />
+        <RoomListBox rooms={rooms} />
       </div>
 
-      {showingRoom != null && <RoomModal room={showingRoom} closeModal={() => { setShowingRoom(null); }} />}
     </div>
   );
 }

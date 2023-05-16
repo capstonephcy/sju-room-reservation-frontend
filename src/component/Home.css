@@ -1,33 +1,3 @@
-.reservation-box {
-    justify-content: space-around;
-}
-
-.reservation-box > * {
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
-}
-
-.reservation-box-mobile > * {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-}
-
-.reservation-room-list-box {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.reservation-room-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-}
-
 .gray-box {
     height: 2.5rem;
     display: flex;
@@ -64,19 +34,4 @@
     border: 0;
     font-size: 0.9rem;
     cursor: pointer;
-}
-
-.reservation-date-calendar {
-    position: fixed;
-    border-radius: 0.75rem;
-}
-
-.search-box {
-    width: 11.25rem;
-}
-
-.search-box-input {
-    background-color: transparent;
-    border: 0;
-    outline: none;
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import { convertDateToYYYYMMDD, mobilable } from "../Common";
+import './ReservationBox.css';
 
 function ReservationBox({ rooms, setShowsRepModal }) {
     const [selectedRoom, setSelectedRoom] = useState(null);

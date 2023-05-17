@@ -13,7 +13,7 @@ function HomeGreetings() {
             alert("로그인 후 이용해주세요.");
             navigate("/login");
         }
-    });
+    }, []);
 
     return (
         <div className={mobilable('home-greetings-box')}>

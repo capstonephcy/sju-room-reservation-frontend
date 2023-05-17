@@ -3,8 +3,6 @@ import Navigation from './Navigation';
 import 'react-calendar/dist/Calendar.css';
 import { useEffect, useState } from 'react';
 import { mobilable } from '../Common';
-import RoomModal from './RoomModal';
-import RepModal from './RepModal';
 import ReservationBox from './ReservationBox';
 import RoomListBox, { fetchRoom } from './RoomListBox';
 import OngoingMeeting from './OngoingMeeting';
@@ -15,7 +13,7 @@ function Home() {
 
   useEffect(() => {
     fetchRoom(setRooms);
-  });
+  }, []);
 
   return (
     <div className={mobilable('home')}>

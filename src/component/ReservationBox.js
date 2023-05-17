@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
-import { BASE_URL, convertDateToYYYYMMDD, mobilable } from "../Common";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL, convertDateToHHmmss, convertDateToYYYYMMDD, mobilable, roundToNearestFiveMinutes, sliceContinuousTimes } from "../Common";
 import RepModal from "./RepModal";
 import './ReservationBox.css';
 
 function ReservationBox({ rooms }) {
+    const navigate = useNavigate();
+
+    const [availableTimes, setAvailableTimes] = useState([]);
+
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [date, setDate] = useState(new Date());
     const [start, setStart] = useState("09:00");
@@ -14,6 +19,78 @@ function ReservationBox({ rooms }) {
 
     const [showsCalendar, setShowsCalendar] = useState(false);
     const [showsRepModal, setShowsRepModal] = useState(false);
+
+    useEffect(() => {
+        fetchReservationAndUpdateAvailableTimes();
+    }, [selectedRoom, date]);
+
+    const fetchReservationAndUpdateAvailableTimes = async () => {
+        try {
+            const currentYYYYMMDD = convertDateToYYYYMMDD(new Date());
+            const currentHHmmss = convertDateToHHmmss(new Date());
+            const response = await fetch(BASE_URL + '/reservation/profiles?startDate=' + currentYYYYMMDD + '&endDate=' + currentYYYYMMDD + '&startTime=' + currentHHmmss + '&endTime=23:59:59&pageIdx=0&pageLimit=100', {
+                method: 'GET',
+                headers: {
+                    'Request-Type': 'TIME_RANGE',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+                }
+            });
+    
+            const data = await response.json();
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                const reservationsForSelectedRoom = data.reservations.filter((item) => (
+                    item.room.id == selectedRoom?.id
+                ));
+                updateAvailableTimes(reservationsForSelectedRoom);
+            } else {
+                alert("정보를 불러오는 데 실패했습니다: " + data._metadata.message);
+                navigate("/login");
+            }
+        } catch (error) {
+            alert("정보를 불러오는 데 실패했습니다: " + error);
+            navigate("/login");
+        }
+    }
+
+    const updateAvailableTimes = (reservations) => {
+        const currentYYYYMMDD = convertDateToYYYYMMDD(new Date());
+        const currentHHmmss = convertDateToHHmmss(new Date());
+
+        // Define time slot intervals
+        const timeSlotIntervalMinutes = 5;
+        let startTime = "09:00:00";
+        if (currentYYYYMMDD == convertDateToYYYYMMDD(date)) {
+            startTime = roundToNearestFiveMinutes(currentHHmmss);
+        }
+        const endTime = "22:00:00";
+
+        // Calculate available times
+        const newAvailableTimes = [];
+        let currentTime = startTime;
+
+        while (currentTime <= endTime) {
+            // Check if the current time falls within any reservation
+            const isReserved = reservations.some(reservation => {
+                const reservationStart = reservation.start;
+                const reservationEnd = reservation.end;
+                
+                return currentTime >= reservationStart && currentTime <= reservationEnd;
+            });
+
+            if (!isReserved) {
+                newAvailableTimes.push(currentTime);
+            }
+
+            // Increment current time by the time slot interval
+            const [hours, minutes, seconds] = currentTime.split(":").map(Number);
+            const newTime = new Date(0, 0, 0, hours, minutes + timeSlotIntervalMinutes, seconds);
+            currentTime = newTime.toTimeString().slice(0, 8);
+        }
+        
+        setAvailableTimes(newAvailableTimes);
+    }
 
     const onChangeDate = date => {
         setDate(date);
@@ -40,7 +117,8 @@ function ReservationBox({ rooms }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
                 },
                 body: JSON.stringify({
                     roomId: selectedRoom.id,
@@ -89,13 +167,18 @@ function ReservationBox({ rooms }) {
                 <div className='gray-box'>
                     <img src='/img/clock.png' className='gray-box-icon'/>
                     <select className={mobilable('gray-dropdown')} onChange={(event) => { setStart(event.target.value ); }}>
-                        <option>09:00</option>
-                        <option>16:00</option>
+                        {availableTimes.map((item) => (
+                            <option>{item.slice(0, 5)}</option>
+                        ))}
                     </select>
                     <a> ~ </a>
                     <select className={mobilable('gray-dropdown')} onChange={(event) => { setEnd(event.target.value ); }}>
-                        <option>09:00</option>
-                        <option>17:30</option>
+                        {sliceContinuousTimes(availableTimes.filter((item) => (item >= start)))
+                            .map((item) => (
+                                <option>{item.slice(0, 5)}</option>
+                            ))
+                        }
+                            
                     </select>
                 </div>
                 <div className={`gray-box ${mobilable('search-box')}`}>

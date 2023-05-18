@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, convertDateToHHmmss, convertDateToYYYYMMDD, mobilable, roundToNearestFiveMinutes, sliceContinuousTimes } from "../Common";
+import { BASE_URL, convertDateToHHmmss, convertDateToYYYYMMDD, fetchTodayReservation, mobilable, roundToNearestFiveMinutes, sliceContinuousTimes } from "../Common";
 import RepModal from "./RepModal";
 import './ReservationBox.css';
 
@@ -21,38 +21,16 @@ function ReservationBox({ rooms }) {
     const [showsRepModal, setShowsRepModal] = useState(false);
 
     useEffect(() => {
-        fetchReservationAndUpdateAvailableTimes();
-    }, [selectedRoom, date]);
-
-    const fetchReservationAndUpdateAvailableTimes = async () => {
-        try {
-            const currentYYYYMMDD = convertDateToYYYYMMDD(new Date());
-            const currentHHmmss = convertDateToHHmmss(new Date());
-            const response = await fetch(BASE_URL + '/reservation/profiles?startDate=' + currentYYYYMMDD + '&endDate=' + currentYYYYMMDD + '&startTime=' + currentHHmmss + '&endTime=23:59:59&pageIdx=0&pageLimit=100', {
-                method: 'GET',
-                headers: {
-                    'Request-Type': 'TIME_RANGE',
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                    'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
-                }
-            });
-    
-            const data = await response.json();
-            const statusCode = response.status;
-            if (statusCode == 200) {
-                const reservationsForSelectedRoom = data.reservations.filter((item) => (
-                    item.room.id == selectedRoom?.id
-                ));
-                updateAvailableTimes(reservationsForSelectedRoom);
-            } else {
-                alert("정보를 불러오는 데 실패했습니다: " + data._metadata.message);
-                navigate("/login");
-            }
-        } catch (error) {
-            alert("정보를 불러오는 데 실패했습니다: " + error);
+        fetchTodayReservation((reservations) => {
+            const reservationsForSelectedRoom = reservations.filter((item) => (
+                item.room.id == selectedRoom?.id
+            ));
+            updateAvailableTimes(reservationsForSelectedRoom);
+        }, () => {
+            alert("정보를 불러오는 데 실패했습니다.");
             navigate("/login");
-        }
-    }
+        });
+    }, [selectedRoom, date]);
 
     const updateAvailableTimes = (reservations) => {
         const currentYYYYMMDD = convertDateToYYYYMMDD(new Date());

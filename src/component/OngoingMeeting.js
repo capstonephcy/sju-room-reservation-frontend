@@ -1,7 +1,24 @@
-import { BASE_URL, mobilable } from "../Common";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL, convertDateToHHmmss, convertDateToYYYYMMDD, fetchTodayReservation, mobilable } from "../Common";
 import './OngoingMeeting.css';
 
 function OngoingMeeting() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchReservation();
+    }, []);
+
+    const fetchReservation = async () => {
+        fetchTodayReservation(() => {
+            
+        }, () => {
+            alert("정보를 불러오는 데 실패했습니다.");
+            navigate("/login");
+        });
+    }
+
     const toggleCheckIn = async () => {
         const checkInCode = prompt('회의실 내에 있는 인증 코드를 입력하세요', '');
         try {

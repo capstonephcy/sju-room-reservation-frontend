@@ -44,23 +44,48 @@ export const roundToNearestFiveMinutes = (time) => {
   }
   
 
-  export const sliceContinuousTimes = (times) => {
-        const continuousTimes = [];
-        for (let i = 0; i < times.length; i++) {
-            if (i === 0) {
-                continuousTimes.push(times[i]);
-                continue;
-            }
-
-            const [prevHour, prevMinute] = times[i - 1].split(':');
-            const [currentHour, currentMinute] = times[i].split(':');
-
-            const prevTimestamp = Number(prevHour) * 60 + Number(prevMinute);
-            const currentTimestamp = Number(currentHour) * 60 + Number(currentMinute);
-
-            const minuteDiff = currentTimestamp - prevTimestamp;
-            if (minuteDiff !== 5) break;
+export const sliceContinuousTimes = (times) => {
+    const continuousTimes = [];
+    for (let i = 0; i < times.length; i++) {
+        if (i === 0) {
             continuousTimes.push(times[i]);
+            continue;
         }
-        return continuousTimes;
-  }
+
+        const [prevHour, prevMinute] = times[i - 1].split(':');
+        const [currentHour, currentMinute] = times[i].split(':');
+
+        const prevTimestamp = Number(prevHour) * 60 + Number(prevMinute);
+        const currentTimestamp = Number(currentHour) * 60 + Number(currentMinute);
+
+        const minuteDiff = currentTimestamp - prevTimestamp;
+        if (minuteDiff !== 5) break;
+        continuousTimes.push(times[i]);
+    }
+    return continuousTimes;
+}
+
+export const fetchTodayReservation = async (onSuccess, onFailure) => {
+    try {
+        const currentYYYYMMDD = convertDateToYYYYMMDD(new Date());
+        const response = await fetch(BASE_URL + '/reservation/profiles?startDate=' + currentYYYYMMDD + '&endDate=' + currentYYYYMMDD + '&startTime=00:00:00&endTime=23:59:59&pageIdx=0&pageLimit=100', {
+            method: 'GET',
+            headers: {
+                'Request-Type': 'TIME_RANGE',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+            }
+        });
+
+        const data = await response.json();
+        const statusCode = response.status;
+        if (statusCode == 200) {
+            onSuccess(data.reservations);
+        } else {
+            onFailure();
+        }
+    } catch (error) {
+        alert(error);
+        onFailure();
+    }
+}

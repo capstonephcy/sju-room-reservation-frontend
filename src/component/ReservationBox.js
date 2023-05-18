@@ -93,6 +93,7 @@ function ReservationBox({ rooms }) {
     }
 
     const onChangeDate = date => {
+        if (convertDateToYYYYMMDD(date) < convertDateToYYYYMMDD(new Date())) return;
         setDate(date);
         setShowsCalendar(false);
     };

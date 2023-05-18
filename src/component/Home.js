@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { mobilable } from '../Common';
 import ReservationBox from './ReservationBox';
 import RoomListBox, { fetchRoom } from './RoomListBox';
-import OngoingMeeting from './OngoingMeeting';
 import HomeGreetings from './HomeGreetings';
+import OngoingReservation from './OngoingReservation';
 
 function Home() {
   const [rooms, setRooms] = useState([]);
@@ -21,7 +21,7 @@ function Home() {
       <div className={mobilable('home-contents')}>
         <HomeGreetings />
         <ReservationBox rooms={rooms} />
-        <OngoingMeeting />
+        <OngoingReservation />
         <RoomListBox rooms={rooms} />
       </div>
 

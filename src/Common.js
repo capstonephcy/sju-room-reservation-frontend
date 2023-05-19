@@ -98,3 +98,23 @@ export const checkIsAdmin = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     return user.permissions[0].includes("ADMIN");
 }
+
+export const combineDateAndTime = (dateString, timeString) => {
+    var dateParts = dateString.split('-');
+    var timeParts = timeString.split(':');
+    
+    // Parse the date parts
+    var year = parseInt(dateParts[0]);
+    var month = parseInt(dateParts[1]) - 1; // Months are zero-based
+    var day = parseInt(dateParts[2]);
+    
+    // Parse the time parts
+    var hours = parseInt(timeParts[0]);
+    var minutes = parseInt(timeParts[1]);
+    var seconds = parseInt(timeParts[2]);
+    
+    // Create a new Date object with the combined date and time
+    var combinedDate = new Date(year, month, day, hours, minutes, seconds);
+    
+    return combinedDate;
+  }

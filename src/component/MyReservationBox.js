@@ -1,7 +1,8 @@
 import FullCalendar from "@fullcalendar/react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, convertDateToYYYYMMDD, mobilable, onFailure } from "../Common";
+import { BASE_URL, combineDateAndTime, convertDateToYYYYMMDD, mobilable, onFailure } from "../Common";
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { useState } from "react";
 
 function MyReservationBox() {
@@ -27,7 +28,7 @@ function MyReservationBox() {
             if (statusCode == 200) {
                 const newEvents = [];
                 data.reservations.forEach(reservation => {
-                    newEvents.push({ id: JSON.stringify(reservation), title: `${reservation.start.slice(0,5)} ${reservation.room.name}`, date: reservation.date });
+                    newEvents.push({ id: JSON.stringify(reservation), title: `${reservation.room.name}`, date: reservation.date, start:combineDateAndTime(reservation.date, reservation.start), end:combineDateAndTime(reservation.date, reservation.end) });
                 });
                 setEvents(newEvents);
             } else {
@@ -48,13 +49,19 @@ function MyReservationBox() {
         <div className={`${mobilable('contents-with-title-box')} margin-top-2rem column-box`}>
             <a className='contents-box-title-text'>내 예약</a>
             <FullCalendar
+                allDaySlot={false}
                 locale={'ko'}
-                plugins={[dayGridPlugin]}
+                plugins={[dayGridPlugin, timeGridPlugin]}
                 initialView="dayGridMonth"
                 events={events}
                 datesSet={fetchReservationForMonth}
                 eventColor="#C31632"
                 eventClick={toggleEventClick}
+                headerToolbar={{
+                    left: 'title',
+                    center: '',
+                    right: 'timeGridDay,timeGridWeek,dayGridMonth today prev,next'
+                }}
             />
         </div>
     );

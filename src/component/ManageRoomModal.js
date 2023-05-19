@@ -70,8 +70,30 @@ function ManageRoomModal({ prevRoom, closeModal }) {
         }
     }
 
-    const toggleDeleteButton = () => {
-
+    const toggleDeleteButton = async () => {
+        if (window.confirm("정말 회의실을 삭제하시겠습니까?")) {
+            try {
+                const response = await fetch(BASE_URL + '/rooms/profiles?id=' + prevRoom.id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                        'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+                    }
+                });
+        
+                const data = await response.json();
+                const statusCode = response.status;
+                if (statusCode == 200) {
+                    alert("회의실이 삭제되었습니다.");
+                    window.location.reload();
+                } else {
+                    onFailure(navigate);
+                }
+            } catch (error) {
+                onFailure(navigate);
+            }
+        }
     }
 
     return (

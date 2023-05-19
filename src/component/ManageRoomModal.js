@@ -46,6 +46,27 @@ function ManageRoomModal({ prevRoom, closeModal }) {
             }
         } else {
             // 수정
+            try {
+                const response = await fetch(BASE_URL + '/rooms/profiles', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                        'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+                    },
+                    body: JSON.stringify({ id: prevRoom.id, name, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+                });
+                const data = await response.json();
+                const statusCode = response.status;
+                if (statusCode == 200) {
+                    alert("회의실 정보가 수정되었습니다.");
+                    window.location.reload();
+                } else {
+                    onFailure(navigate);
+                }
+            } catch (error) {
+                onFailure(navigate);
+            }
         }
     }
 
@@ -105,11 +126,11 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 </div>
                 <div className="row-box margin-top-05rem">
                     <div>
-                        <input type="checkbox" checked={whiteboard} onChange={setWhiteboard}/>
+                        <input type="checkbox" checked={whiteboard} onChange={(event) => { setWhiteboard(event.target.checked) }}/>
                         <label>화이트보드</label>
                     </div>
                     <div>
-                        <input type="checkbox" checked={projector} onChange={setProjector}/>
+                        <input type="checkbox" checked={projector} onChange={(event) => { setProjector(event.target.checked) }}/>
                         <label>프로젝터</label>
                     </div>
                 </div>

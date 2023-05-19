@@ -28,6 +28,10 @@ function Navigation() {
     }
   }, []);
 
+  const toggleLogin = () => {
+    navigate("/login");
+  }
+
   const toggleHome = () => {
     navigate("/");
   }
@@ -46,7 +50,7 @@ function Navigation() {
 
   return (
     <div className='navigation'>
-      <img className='logo-img cursor-pointer' src="/img/sejong.png" />
+      <img className='logo-img cursor-pointer' src="/img/sejong.png" onClick={toggleLogin} />
       { !isAdmin &&
       <div className='menu-box'>
         <div className={`${index == 0 ? 'background-red' : ''} menu-item-box cursor-pointer`} onClick={toggleHome}>

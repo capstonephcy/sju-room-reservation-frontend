@@ -38,7 +38,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                     </div>
                     <div className='room-input-box'>
                         <a>건물</a>
-                        <input type='text' value={building} onChange={((event) => setBuilding(event.target.value))} />
+                        <input type='text' value={building} onChange={((event) => setBuilding(event.target.value))} readOnly={prevRoom != null} />
                     </div>
                     <div className='room-input-box'>
                         <a>회의실 번호</a>
@@ -82,7 +82,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                     </div>
                 </div>
 
-                { prevRoom != null &&
+                {prevRoom != null &&
                 <div className="delete-room-box">
                     <a className="delete-room-button" onClick={toggleDeleteButton}>삭제하기</a>
                 </div>

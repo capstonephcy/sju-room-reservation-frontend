@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function MyReservationBox() {
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     // { id: (reservation object for additional information) title: 'test1', 'date': '2023-05-19' }
     const [events, setEvents] = useState([]);
@@ -14,7 +15,7 @@ function MyReservationBox() {
         try {
             const startYYYYMMDD = convertDateToYYYYMMDD(dateInfo.start);
             const endYYYYMMDD = convertDateToYYYYMMDD(dateInfo.end);
-            const response = await fetch(BASE_URL + '/reservation/profiles?startDate=' + startYYYYMMDD + '&endDate=' + endYYYYMMDD + '&startTime=00:00:00&endTime=23:59:59&pageIdx=0&pageLimit=100', {
+            const response = await fetch(BASE_URL + '/reservation/profiles?startDate=' + startYYYYMMDD + '&endDate=' + endYYYYMMDD + '&startTime=00:00:00&endTime=23:59:59&pageIdx=0&pageLimit=100&userId=' + user.id, {
                 method: 'GET',
                 headers: {
                     'Request-Type': 'TIME_RANGE',

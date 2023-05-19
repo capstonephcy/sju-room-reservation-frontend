@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { mobilable } from "../Common";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL, mobilable, onFailure } from "../Common";
 import './ManageRoomModal.css';
 
 function ManageRoomModal({ prevRoom, closeModal }) {
+    const navigate = useNavigate();
+
     const [name, setName] = useState(prevRoom ? prevRoom.name : "");
-    const [building, setBuilding] = useState(prevRoom ? prevRoom.building : ""); // immutable for PUT
+    const [building, setBuilding] = useState(prevRoom ? prevRoom.building : "대양AI센터"); // immutable for PUT + room 쿼리 시 building을 지정해야 해서 우선은 고정하였음
     const [number, setNumber] = useState(prevRoom ? prevRoom.number.toString() : ""); // Number
     const [whiteboard, setWhiteboard] = useState(prevRoom ? prevRoom.whiteboard : false);
     const [projector, setProjector] = useState(prevRoom ? prevRoom.projector : false);
@@ -16,8 +19,34 @@ function ManageRoomModal({ prevRoom, closeModal }) {
     const [maxLooseTimeForStud, setMaxLooseTimeForStud] = useState(prevRoom ? prevRoom.maxLooseTimeForStud : 1);
     const [capacity, setCapacity] = useState(8);
 
-    const toggleConfirmButton = () => {
-
+    const toggleConfirmButton = async () => {
+        if (prevRoom == null) {
+            // 생성
+            try {
+                const response = await fetch(BASE_URL + '/rooms/profiles', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                        'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+                    },
+                    body: JSON.stringify({ name, building, number, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+                });
+        
+                const data = await response.json();
+                const statusCode = response.status;
+                if (statusCode == 200) {
+                    alert("회의실이 생성되었습니다.");
+                    window.location.reload();
+                } else {
+                    onFailure(navigate);
+                }
+            } catch (error) {
+                onFailure(navigate);
+            }
+        } else {
+            // 수정
+        }
     }
 
     const toggleDeleteButton = () => {
@@ -38,13 +67,16 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                     </div>
                     <div className='room-input-box'>
                         <a>건물</a>
-                        <input type='text' value={building} onChange={((event) => setBuilding(event.target.value))} readOnly={prevRoom != null} />
+                        <input type='text' value={building} onChange={((event) => setBuilding(event.target.value))} readOnly />
                     </div>
                     <div className='room-input-box'>
                         <a>회의실 번호</a>
                         <input type='number' value={number} onChange={((event) => setNumber(event.target.value))} />
                     </div>
-                    <div className='room-input-box'></div>
+                    <div className='room-input-box'>
+                        <a>최대 인원</a>
+                        <input type='number' value={capacity} onChange={((event) => setCapacity(event.target.value))} />
+                    </div>
                     
                     <div className='room-input-box'>
                         <a className='room-input-description'>피크타임 최대예약시간(대학원생, 교수)</a>

@@ -15,7 +15,7 @@ function Home() {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    if (checkIsAdmin) {
+    if (checkIsAdmin()) {
       alert("관리자 계정은 접근할 수 없는 페이지입니다.");
       navigate("/statics");
     }

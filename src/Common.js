@@ -90,7 +90,7 @@ export const fetchTodayReservation = async (onSuccess, onFailure) => {
 }
 
 export const onFailure = (navigate) => {
-    alert("정보를 불러오는 데 실패했습니다.");
+    alert("요청을 처리하는 데 실패했습니다.");
     navigate("/login");
 }
 

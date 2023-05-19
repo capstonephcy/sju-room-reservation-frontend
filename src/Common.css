@@ -199,3 +199,8 @@
     cursor: pointer;
     border-radius: 0.5rem;
 }
+
+.row-box {
+    display: flex;
+    flex-direction: row;
+}

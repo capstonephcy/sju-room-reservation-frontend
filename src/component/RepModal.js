@@ -71,7 +71,7 @@ function RepModal({ selectedRoom, date, start, end, members, closeModal }) {
             const statusCode = response.status;
             if (statusCode == 200) {
                 alert("예약되었습니다.");
-                closeModal();
+                window.location.reload();
             } else {
                 alert("예약에 실패했습니다: " + data._metadata.message);
             }

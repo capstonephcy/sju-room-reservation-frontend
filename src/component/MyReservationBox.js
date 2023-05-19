@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL, convertDateToYYYYMMDD, mobilable, onFailure } from "../Common";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { useState } from "react";
-import { preventDefault } from "@fullcalendar/core/internal";
 
 function MyReservationBox() {
     const navigate = useNavigate();
 
-    const [events, setEvents] = useState([]); // { title: 'test1', 'date': '2023-05-19' }
+    // { id: (reservation object for additional information) title: 'test1', 'date': '2023-05-19' }
+    const [events, setEvents] = useState([]);
     const fetchReservationForMonth = async (dateInfo) => {
         try {
             const startYYYYMMDD = convertDateToYYYYMMDD(dateInfo.start);
@@ -27,15 +27,21 @@ function MyReservationBox() {
             if (statusCode == 200) {
                 const newEvents = [];
                 data.reservations.forEach(reservation => {
-                    newEvents.push({ title: `${reservation.start.slice(0,5)} ${reservation.room.name}`, date: reservation.date });
+                    newEvents.push({ id: JSON.stringify(reservation), title: `${reservation.start.slice(0,5)} ${reservation.room.name}`, date: reservation.date });
                 });
                 setEvents(newEvents);
             } else {
                 onFailure(navigate);
             }
         } catch (error) {
+            alert(error);
             onFailure(navigate);
         }
+    }
+
+    const toggleEventClick = (data) => {
+        const reservation = JSON.parse(data.event.id);
+        alert(`${reservation.room.name} ${reservation.start.slice(0, 5)}~${reservation.end.slice(0, 5)}`);
     }
 
     return (
@@ -45,9 +51,10 @@ function MyReservationBox() {
                 locale={'ko'}
                 plugins={[dayGridPlugin]}
                 initialView="dayGridMonth"
+                events={events}
                 datesSet={fetchReservationForMonth}
                 eventColor="#C31632"
-                events={events}
+                eventClick={toggleEventClick}
             />
         </div>
     );

@@ -93,3 +93,8 @@ export const onFailure = (navigate) => {
     alert("정보를 불러오는 데 실패했습니다.");
     navigate("/login");
 }
+
+export const checkIsAdmin = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user.permissions[0].includes("ADMIN");
+}

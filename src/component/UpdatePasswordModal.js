@@ -6,7 +6,7 @@ function UpdatePasswordModal({ setShowsUpdatePasswordModal }) {
     const [newPassword, setNewPassword] = useState("");
     const [newConfirmPassword, setNewConfirmPassword] = useState("");
 
-    const toggleUpdatePassword = async (event) => {
+    const toggleUpdatePassword = async () => {
         if (newPassword != newConfirmPassword) {
             alert("입력하신 두 개의 새 비밀번호가 서로 다릅니다.");
             return;

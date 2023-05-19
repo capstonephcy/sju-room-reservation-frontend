@@ -4,6 +4,7 @@ import { mobilable } from '../Common';
 import { useState } from 'react';
 import UpdatePasswordModal from './UpdatePasswordModal';
 import MyInformationBox from './MyInformationBox';
+import MyReservationBox from './MyReservationBox';
 
 function MyPage() {
     const [showsUpdatePasswordModal, setShowsUpdatePasswordModal] = useState(false);
@@ -13,6 +14,7 @@ function MyPage() {
             <Navigation />
             <div className={mobilable('home-contents')}>
                 <MyInformationBox setShowsUpdatePasswordModal={setShowsUpdatePasswordModal} />
+                <MyReservationBox />
             </div>
         {showsUpdatePasswordModal && <UpdatePasswordModal setShowsUpdatePasswordModal={setShowsUpdatePasswordModal} />}
         </div>

@@ -2,12 +2,15 @@ import './Login.css';
 import { useState } from 'react';
 import { BASE_URL } from '../Common';
 import { useNavigate } from "react-router-dom";
+import RecoverUsernameModal from './RecoverUsernameModal';
 
 function Login() {
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const [showsRecoverUsernameModal, setShowsRecoverUsernameModal] = useState(false);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -99,13 +102,15 @@ function Login() {
                 </form>
 
                 <div className='find-box'>
-                    <a className='find-text semi-bold cursor-pointer'>아이디 찾기</a>
+                    <a className='find-text semi-bold cursor-pointer' onClick={() => { setShowsRecoverUsernameModal(true) }}>아이디 찾기</a>
                     <a className='find-text semi-bold cursor-pointer'> | </a>
                     <a className='find-text semi-bold cursor-pointer'>비밀번호 찾기</a>
                 </div>
 
                 <a className='bottom-title-text semi-bold'>세종대학교 회의실 예약 시스템</a>
             </div>
+
+            {showsRecoverUsernameModal && <RecoverUsernameModal closeModal={() => { setShowsRecoverUsernameModal(false) }} />}
         </div>
     );
 }

@@ -98,7 +98,7 @@ function RepModal({ selectedRoom, date, start, end, members, closeModal }) {
 
                 {type == TYPE.ITERATION &&
                 <div className='rep-end-count-box'>
-                    <input className='rep-count-input' value={iteration} onChange={(event) => { setIteration(event.target.value) }} maxLength="2"/>
+                    <input className='rep-count-input' onChange={(event) => { setIteration(event.target.value) }} maxLength="2"/>
                     <a className='rep-end-count-description'>회 반복</a>
                 </div>
                 }

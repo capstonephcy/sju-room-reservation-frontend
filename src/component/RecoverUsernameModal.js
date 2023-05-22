@@ -38,7 +38,7 @@ function RecoverUsernameModal({ closeModal }) {
                 <div className="column-box margin-top-05rem">
                     <label>이메일</label>
                     <input type='text' className="margin-top-05rem" placeholder="가입 시 입력한 이메일을 입력해주세요."
-                    value={email} onChange={(event) => { setEmail(event.target.value) }}/>
+                    onChange={(event) => { setEmail(event.target.value) }}/>
                 </div>
 
                 <div className='modal-button-box'>

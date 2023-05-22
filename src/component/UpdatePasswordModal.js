@@ -46,15 +46,12 @@ function UpdatePasswordModal({ setShowsUpdatePasswordModal }) {
                 <div className='column-box margin-top-1rem'>
                     <a>현재 비밀번호</a>
                     <input type="password" className='update-password-input'
-                        value={currentPassword}
                         onChange={(event) => setCurrentPassword(event.target.value)}/>
                     <a className='margin-top-05rem'>새 비밀번호</a>
                     <input type="password" className='update-password-input'
-                        value={newPassword}
                         onChange={(event) => setNewPassword(event.target.value)}/>
                     <a className='margin-top-05rem'>새 비밀번호 확인</a>
                     <input type="password" className='update-password-input'
-                        value={newConfirmPassword}
                         onChange={(event) => setNewConfirmPassword(event.target.value)}/>
                 </div>
             

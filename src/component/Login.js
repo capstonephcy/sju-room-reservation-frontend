@@ -82,7 +82,6 @@ function Login() {
                     <div className='login-input-box'>
                         <img src="/img/user.png" className="login-input-icon" alt="logo" />
                         <input type='text' className='login-input' placeholder='학번'
-                        value={username}
                         onChange={(event) => setUsername(event.target.value)}
                         onKeyDown={handleKeyDown}
                         />
@@ -90,7 +89,6 @@ function Login() {
                     <div className='login-input-box'>
                         <img src="/img/password.png" className="login-input-icon" alt="logo" />
                         <input type='password' className='login-input' placeholder='비밀번호'
-                        value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         onKeyDown={handleKeyDown}
                         />

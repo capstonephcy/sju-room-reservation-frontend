@@ -8,12 +8,28 @@ import './ReservationBox.css';
 function ReservationBox({ rooms }) {
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const reservationDateCalendar = document.querySelector('.reservation-date-calendar');
+        const dateBox = document.querySelector('.date-box');
+        if (reservationDateCalendar && dateBox) {
+            reservationDateCalendar.style.left = dateBox.offsetLeft + 'px';
+        }
+
+        const searchResultBox = document.querySelector('.search-result-box');
+        const searchBox = document.querySelector('.search-box, .search-box-mobile');
+        if (searchResultBox && searchBox) {
+            searchResultBox.style.top = searchBox.offsetTop + searchBox.clientHeight + 'px';
+            searchResultBox.style.left = searchBox.offsetLeft + 'px';
+        }
+    });
+
     const [availableTimes, setAvailableTimes] = useState([]);
 
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [date, setDate] = useState(new Date());
     const [start, setStart] = useState("09:00");
     const [end, setEnd] = useState("09:00");
+    const [searchedMembers, setSearchedMembers] = useState([]);
     const [members, setMembers] = useState([]);
     const [isRepChecked, setIsRepChecked] = useState(false);
 
@@ -80,6 +96,23 @@ function ReservationBox({ rooms }) {
         setShowsCalendar(!showsCalendar);
     }
 
+    const toggleSearch = async (query) => {
+        const response = await fetch(BASE_URL + '/users/profiles?name=' + query, {
+            method: 'GET',
+            headers: {
+                'Request-Type': 'NAME',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+            }
+        });
+
+        const data = await response.json();
+        const statusCode = response.status;
+        if (statusCode == 200) {
+            setSearchedMembers(data.userProfiles);
+        }
+    }
+
     const toggleReservationButton = () => {
         if (selectedRoom == null) alert("예약 장소를 선택해주세요.");
         else if (start >= end) alert("예약 종료 시간은 시작 시간 이후로 설정되어야 합니다.");
@@ -140,10 +173,12 @@ function ReservationBox({ rooms }) {
                         ))}
                     </select>
                 </div>
-                <div className='gray-box' onClick={toggleDate}>
+
+                <div className='date-box gray-box' onClick={toggleDate}>
                     <img src='/img/schedule.png' className='gray-box-icon'/>
                     <a className='gray-box-text'>{date.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' })}</a>
                 </div>
+                
                 <div className='gray-box'>
                     <img src='/img/clock.png' className='gray-box-icon'/>
                     <select className={mobilable('gray-dropdown')} onChange={(event) => { setStart(event.target.value ); }}>
@@ -161,14 +196,22 @@ function ReservationBox({ rooms }) {
                             
                     </select>
                 </div>
+
                 <div className={`gray-box ${mobilable('search-box')}`}>
                     <img src='/img/search.png' className='gray-box-icon'/>
-                    <input className='search-box-input gray-box-text text-ellipsis' placeholder={members.length > 0 ? members.join(", ") : "참여 인원 이름 검색"}></input>
+                    <input className='search-box-input gray-box-text text-ellipsis' onChange={(event) => { toggleSearch(event.target.value) }} placeholder={members.length > 0 ? members.join(", ") : "참여 인원 이름 검색"}></input>
                 </div>
+                <div className='search-result-box'>
+                    {searchedMembers.map((user) => (
+                        <a className='search-result-item'>{user.username} {user.name}</a>
+                    ))}
+                </div>
+
                 <div className='gray-box'>
                     <input className='checkbox' type="checkbox" checked={isRepChecked} onChange={({ target: { checked } }) => setIsRepChecked(checked)}/>
                     <a className='gray-box-text' onClick={() => setIsRepChecked(!isRepChecked)}>반복</a>
                 </div>
+
                 <div className='red-box' onClick={toggleReservationButton}>
                     <a className='red-box-text'>예약하기</a>
                 </div>

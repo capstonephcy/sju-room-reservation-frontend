@@ -39,6 +39,22 @@
 }
 
 .reservation-date-calendar {
-    position: fixed;
+    position: absolute;
     border-radius: 0.75rem;
+}
+
+.search-result-box {
+    width: 11.25rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: #F4F1F1;
+    border-radius: 0.5rem;
+}
+
+.search-result-item {
+    padding: 0.25rem 0;
 }

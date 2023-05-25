@@ -9,6 +9,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
     const [name, setName] = useState(prevRoom ? prevRoom.name : "");
     const [building, setBuilding] = useState(prevRoom ? prevRoom.building : "대양AI센터"); // immutable for PUT + room 쿼리 시 building을 지정해야 해서 우선은 고정하였음
     const [number, setNumber] = useState(prevRoom ? prevRoom.number.toString() : ""); // Number
+    const [description, setDescription] = useState(prevRoom ? prevRoom.description : "");
     const [whiteboard, setWhiteboard] = useState(prevRoom ? prevRoom.whiteboard : false);
     const [projector, setProjector] = useState(prevRoom ? prevRoom.projector : false);
     const [maxPeakTimeForGrad, setMaxPeakTimeForGrad] = useState(prevRoom ? prevRoom.maxPeakTimeForGrad : 4);
@@ -30,7 +31,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                         'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                         'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
                     },
-                    body: JSON.stringify({ name, building, number, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+                    body: JSON.stringify({ name, building, number, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
                 });
         
                 const data = await response.json();
@@ -54,7 +55,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                         'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                         'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
                     },
-                    body: JSON.stringify({ id: prevRoom.id, name, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+                    body: JSON.stringify({ id: prevRoom.id, name, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
                 });
                 const data = await response.json();
                 const statusCode = response.status;
@@ -144,6 +145,11 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                     <div className='room-input-box'>
                         <a className='room-input-description'>루즈타임 최대예약시간(일반 학생)</a>
                         <input type='number' value={maxLooseTimeForStud} onChange={((event) => setMaxLooseTimeForStud(event.target.value))} />
+                    </div>
+
+                    <div className='room-input-box-full'>
+                        <a>설명</a>
+                        <input type='text' value={description} onChange={((event) => setDescription(event.target.value))} />
                     </div>
                 </div>
                 <div className="row-box margin-top-05rem">

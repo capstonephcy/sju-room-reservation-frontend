@@ -21,53 +21,85 @@ function ManageRoomModal({ prevRoom, closeModal }) {
     const [capacity, setCapacity] = useState(8);
 
     const toggleConfirmButton = async () => {
-        if (prevRoom == null) {
-            // 생성
-            try {
-                const response = await fetch(BASE_URL + '/rooms/profiles', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                        'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
-                    },
-                    body: JSON.stringify({ name, building, number, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
-                });
-        
-                const data = await response.json();
-                const statusCode = response.status;
-                if (statusCode == 200) {
-                    alert("회의실이 생성되었습니다.");
-                    window.location.reload();
-                } else {
-                    onFailure(navigate);
-                }
-            } catch (error) {
-                onFailure(navigate);
-            }
+        try {
+            if (prevRoom == null) createRoom();
+            else updateRoom();
+        } catch {
+            onFailure(navigate);
+        }
+    }
+
+    const createRoom = async () => {
+        const response = await fetch(BASE_URL + '/rooms/profiles', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+            },
+            body: JSON.stringify({ name, building, number, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+        });
+
+        const data = await response.json();
+        const statusCode = response.status;
+        if (statusCode == 200) {
+            uploadRoomImage(data.createdRoomProfile.id, () => {
+                alert("회의실이 생성되었습니다.");
+                window.location.reload();
+            });
         } else {
-            // 수정
-            try {
-                const response = await fetch(BASE_URL + '/rooms/profiles', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                        'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
-                    },
-                    body: JSON.stringify({ id: prevRoom.id, name, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
-                });
-                const data = await response.json();
-                const statusCode = response.status;
-                if (statusCode == 200) {
-                    alert("회의실 정보가 수정되었습니다.");
-                    window.location.reload();
-                } else {
-                    onFailure(navigate);
-                }
-            } catch (error) {
-                onFailure(navigate);
-            }
+            onFailure(navigate);
+        }
+    }
+
+    const updateRoom = async () => {
+        const response = await fetch(BASE_URL + '/rooms/profiles', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+            },
+            body: JSON.stringify({ id: prevRoom.id, name, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+        });
+        const data = await response.json();
+        const statusCode = response.status;
+        if (statusCode == 200) {
+            uploadRoomImage(prevRoom.id, () => {
+                alert("회의실 정보가 수정되었습니다.");
+                window.location.reload();
+            });
+        } else {
+            onFailure(navigate);
+        }
+    }
+
+    const uploadRoomImage = async (roomId, onSuccess) => {
+        const imageInput = document.querySelector('.image-input');
+        // 파일 업로드를 하지 않았을 때
+        if (imageInput.files.length === 0) {
+            onSuccess();
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('roomId', roomId);
+        formData.append('files', imageInput.files[0]);
+
+        const response = await fetch(BASE_URL + '/rooms/images', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+            },
+            body: formData
+        });
+        const data = await response.json();
+        const statusCode = response.status;
+        if (statusCode == 200) {
+            onSuccess();
+        } else {
+            onFailure(navigate);
         }
     }
 
@@ -163,11 +195,14 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                     </div>
                 </div>
 
+                <form>
+                    <input className="image-input" type="file" accept="image/*" />
+                </form>
+
                 {prevRoom != null &&
                 <div className="delete-room-box">
                     <a className="delete-room-button" onClick={toggleDeleteButton}>삭제하기</a>
-                </div>
-                }
+                </div>}
 
                 <div className='modal-button-box'>
                     <div className='modal-cancel-button' onClick={closeModal}>

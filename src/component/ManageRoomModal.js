@@ -106,44 +106,44 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 <div className='room-input-list-box margin-top-05rem'>
                     <div className='room-input-box'>
                         <a>회의실명</a>
-                        <input type='text' onChange={((event) => setName(event.target.value))} />
+                        <input type='text' value={name} onChange={((event) => setName(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
                         <a>건물</a>
-                        <input type='text' onChange={((event) => setBuilding(event.target.value))} readOnly />
+                        <input type='text' value={building} onChange={((event) => setBuilding(event.target.value))} readOnly />
                     </div>
                     <div className='room-input-box'>
                         <a>회의실 번호</a>
-                        <input type='number' onChange={((event) => setNumber(event.target.value))} />
+                        <input type='number' value={number} onChange={((event) => setNumber(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
                         <a>최대 인원</a>
-                        <input type='number' onChange={((event) => setCapacity(event.target.value))} />
+                        <input type='number' value={capacity} onChange={((event) => setCapacity(event.target.value))} />
                     </div>
                     
                     <div className='room-input-box'>
                         <a className='room-input-description'>피크타임 최대예약시간(대학원생, 교수)</a>
-                        <input type='number' onChange={((event) => setMaxPeakTimeForGrad(event.target.value))} />
+                        <input type='number' value={maxPeakTimeForGrad} onChange={((event) => setMaxPeakTimeForGrad(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
                         <a className='room-input-description'>피크타임 최대예약시간(일반학생)</a>
-                        <input type='number' onChange={((event) => setMaxPeakTimeForStud(event.target.value))} />
+                        <input type='number' value={maxPeakTimeForStud} onChange={((event) => setMaxPeakTimeForStud(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
                         <a className='room-input-description'>평시 최대예약시간(대학원생, 교수)</a>
-                        <input type='number' onChange={((event) => setMaxNormalTimeForGrad(event.target.value))} />
+                        <input type='number' value={maxNormalTimeForGrad} onChange={((event) => setMaxNormalTimeForGrad(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
                         <a className='room-input-description'>평시 최대예약시간(일반 학생)</a>
-                        <input type='number' onChange={((event) => setMaxNormalTimeForStud(event.target.value))} />
+                        <input type='number' value={maxNormalTimeForStud} onChange={((event) => setMaxNormalTimeForStud(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
                         <a className='room-input-description'>루즈타임 최대예약시간(대학원생, 교수)</a>
-                        <input type='number' onChange={((event) => setMaxLooseTimeForGrad(event.target.value))} />
+                        <input type='number' value={maxLooseTimeForGrad} onChange={((event) => setMaxLooseTimeForGrad(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
                         <a className='room-input-description'>루즈타임 최대예약시간(일반 학생)</a>
-                        <input type='number' onChange={((event) => setMaxLooseTimeForStud(event.target.value))} />
+                        <input type='number' value={maxLooseTimeForStud} onChange={((event) => setMaxLooseTimeForStud(event.target.value))} />
                     </div>
                 </div>
                 <div className="row-box margin-top-05rem">

@@ -13,6 +13,11 @@ function RoomModal({ room, roomImages, closeModal }) {
 
                 <a>{room.description}</a>
 
+                <div className="equipment-box">
+                    {room.whiteboard && <img src="/img/whiteboard.png" className="equipment-icon"/>}
+                    {room.projector && <img src="/img/projector.jpeg" className="equipment-icon"/>}
+                </div>
+
                 <div className='modal-button-box'>
                     <div className='modal-ok-button' onClick={closeModal}>
                     <a className='red-box-text'>확인</a>

@@ -1,3 +1,15 @@
 .room-image {
     width: 100%;
 }
+
+.equipment-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+}
+
+.equipment-icon {
+    height: 1.5rem;
+    margin-left: 0.5rem;
+}

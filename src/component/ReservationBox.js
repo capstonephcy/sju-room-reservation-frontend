@@ -29,8 +29,14 @@ function ReservationBox({ rooms }) {
     const [date, setDate] = useState(new Date());
     const [start, setStart] = useState("09:00");
     const [end, setEnd] = useState("09:00");
+
+    const [query, setQuery] = useState("");
     const [searchedMembers, setSearchedMembers] = useState([]);
     const [members, setMembers] = useState([]);
+    useEffect(() => {
+        toggleSearch(query);
+    }, [query]);
+
     const [isRepChecked, setIsRepChecked] = useState(false);
 
     const [showsCalendar, setShowsCalendar] = useState(false);
@@ -113,6 +119,13 @@ function ReservationBox({ rooms }) {
         }
     }
 
+    const toggleSearchedMember = (user) => {
+        setQuery("");
+        const newMembers = [...members];
+        newMembers.push(user);
+        setMembers(newMembers);
+    }
+
     const toggleReservationButton = () => {
         if (selectedRoom == null) alert("예약 장소를 선택해주세요.");
         else if (start >= end) alert("예약 종료 시간은 시작 시간 이후로 설정되어야 합니다.");
@@ -193,17 +206,16 @@ function ReservationBox({ rooms }) {
                                 <option>{item.slice(0, 5)}</option>
                             ))
                         }
-                            
                     </select>
                 </div>
 
                 <div className={`gray-box ${mobilable('search-box')}`}>
                     <img src='/img/search.png' className='gray-box-icon'/>
-                    <input className='search-box-input gray-box-text text-ellipsis' onChange={(event) => { toggleSearch(event.target.value) }} placeholder={members.length > 0 ? members.join(", ") : "참여 인원 이름 검색"}></input>
+                    <input className='search-box-input gray-box-text text-ellipsis' value={query} onChange={(event) => { setQuery(event.target.value); }} placeholder={members.length > 0 ? members.map(user => user.name).join(", ") : "참여 인원 이름 검색"}></input>
                 </div>
                 <div className='search-result-box'>
                     {searchedMembers.map((user) => (
-                        <a className='search-result-item'>{user.username} {user.name}</a>
+                        <a className='search-result-item' onClick={() => toggleSearchedMember(user)}>{user.username} {user.name}</a>
                     ))}
                 </div>
 

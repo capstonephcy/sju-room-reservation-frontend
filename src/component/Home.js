@@ -13,13 +13,14 @@ function Home() {
   const navigate = useNavigate();
 
   const [rooms, setRooms] = useState([]);
+  const [roomsImages, setRoomsImages] = useState([]);
 
   useEffect(() => {
     if (checkIsAdmin()) {
       alert("관리자 계정은 접근할 수 없는 페이지입니다.");
       navigate("/statics");
     }
-    fetchRoom(setRooms);
+    fetchRoom(setRooms, setRoomsImages);
   }, []);
 
   return (
@@ -29,7 +30,7 @@ function Home() {
         <HomeGreetings />
         <ReservationBox rooms={rooms} />
         <OngoingReservation />
-        <RoomListBox rooms={rooms} />
+        <RoomListBox rooms={rooms} roomsImages={roomsImages} />
       </div>
 
     </div>

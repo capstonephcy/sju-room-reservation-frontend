@@ -33,6 +33,32 @@ function ManageUserBox() {
         }
     }
 
+    const importUser = async () => {
+        try {
+            const csvInput = document.querySelector('.image-input');
+
+            const formData = new FormData();
+            formData.append('csvFile', csvInput.files[0]);
+
+            const response = await fetch(BASE_URL + '/users/imports/csv', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                },
+                body: formData
+            });
+            const data = await response.json();
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                alert("사용자가 추가되었습니다.");
+            } else {
+                alert("요청이 실패했습니다: " + data._metadata.message);
+            }
+        } catch (error) {
+            alert("요청이 실패했습니다: " + error);
+        }
+    }
+
     return (
         <div className={`${mobilable('contents-with-title-box')} margin-top-2rem column-box`}>
             <a className='contents-box-title-text'>사용자 추가</a>
@@ -62,7 +88,7 @@ function ManageUserBox() {
 
                     <div className="margin-top-05rem">
                         <a>csv로 추가: </a>
-                        <input className="image-input" type="file" accept=".csv" />
+                        <input className="csv-input" type="file" accept=".csv" />
                     </div>
                 </div>
             </div>

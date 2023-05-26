@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { mobilable } from "../Common";
-import { fetchRoom } from "./RoomListBox";
+import { mobilable, fetchRoom } from "../Common";
 import "./ManageRoomBox.css";
 import ManageRoomModal from "./ManageRoomModal";
 

@@ -136,3 +136,24 @@ export const plus7Days = (date) => {
     newDate.setDate(newDate.getDate() + 7);
     return newDate;
 }
+
+const BUILDING = "대양AI센터";
+const pageIdx = 0;
+const PAGE_LIMIT = 20;
+export const fetchRoom = async (setRooms, setRoomsImages) => {
+    const response = await fetch(BASE_URL + '/rooms/profiles?building=' + BUILDING + '&pageIdx=' + pageIdx + '&pageLimit=' + PAGE_LIMIT, {
+        method: 'GET',
+        headers: {
+            'Request-Type': 'BUILDING',
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+        }
+    });
+
+    const data = await response.json();
+    const statusCode = response.status;
+    if (statusCode == 200) {
+        setRooms(data.rooms);
+        if (setRoomsImages != null) setRoomsImages(data.roomsImages);
+    }
+}

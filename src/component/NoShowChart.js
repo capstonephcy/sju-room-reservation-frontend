@@ -2,11 +2,21 @@ import { BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip }
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, onFailure, minus7Days, plus7Days } from "../Common";
+import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, onFailure, minus7Days, plus7Days, fetchRoom } from "../Common";
 import './NoShowChart.css';
 
 function NoShowChart() {
     const navigate = useNavigate();
+
+    const [rooms, setRooms] = useState([]);
+    const [roomId, setRoomId] = useState(null);
+
+    useEffect(() => {
+        fetchRoom(setRooms);
+    }, []);
+    useEffect(() => {
+        if (rooms != null && rooms.length >= 1) setRoomId(rooms[0].id);
+    }, [rooms]);
 
     const [startDate, setStartDate] = useState(getLastWeekDay());
     const [endDate, setEndDate] = useState(new Date());
@@ -22,8 +32,9 @@ function NoShowChart() {
     }
 
     useEffect(() => {
+        if (roomId == null) return;
         fetchRoomReservationStats();
-    }, [startDate, endDate]);
+    }, [roomId, startDate, endDate]);
 
     const [data, setData] = useState({ labels: [], datasets: [] });
     const [labels, setLabels] = useState([]);
@@ -58,7 +69,7 @@ function NoShowChart() {
         try {
             const startYYYYMMDD = convertDateToYYYYMMDD(startDate);
             const endYYYYMMDD = convertDateToYYYYMMDD(endDate);
-            const response = await fetch(BASE_URL + '/metrics/rooms/reservations/stats?roomId=1&date=' + startYYYYMMDD + '&endDate=' + endYYYYMMDD, {
+            const response = await fetch(BASE_URL + '/metrics/rooms/reservations/stats?roomId=' + roomId + '&date=' + startYYYYMMDD + '&endDate=' + endYYYYMMDD, {
                 method: 'GET',
                 headers: {
                     'Request-Type': 'TIME_RANGE',
@@ -92,14 +103,7 @@ function NoShowChart() {
         }
     }
 
-    Chart.register(
-        CategoryScale,
-        LinearScale,
-        BarElement,
-        Title,
-        Tooltip,
-        Legend
-    );
+    Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
     return (
         <div>
@@ -108,6 +112,16 @@ function NoShowChart() {
                 <div className="row-box">
                     <a className="red-button" onClick={minus7DaysForDates}>←</a>
                     <a className="red-button margin-left-05rem" onClick={plus7DaysForDates}>→</a>
+                    <select
+                        className="margin-left-05rem"
+                        onChange={(event) => { 
+                            const index = event.target.selectedIndex;
+                            setRoomId(rooms[index].id);
+                        }}>
+                        {rooms.map((item) => (
+                            <option>{item.name}</option>
+                        ))}
+                    </select>
                 </div>
             </div>
             <Bar data={data} />

@@ -35,7 +35,7 @@ function ManageUserBox() {
 
     const importUser = async () => {
         try {
-            const csvInput = document.querySelector('.image-input');
+            const csvInput = document.querySelector('.csv-input');
 
             const formData = new FormData();
             formData.append('csvFile', csvInput.files[0]);
@@ -88,7 +88,7 @@ function ManageUserBox() {
 
                     <div className="margin-top-05rem">
                         <a>csv로 추가: </a>
-                        <input className="csv-input" type="file" accept=".csv" />
+                        <input className="csv-input" type="file" accept=".csv" onChange={() => { importUser(); }} />
                     </div>
                 </div>
             </div>

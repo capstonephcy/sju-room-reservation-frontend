@@ -1,8 +1,9 @@
 import './Manage.css';
-import { BASE_URL, fetchUserProfile, mobilable } from '../Common';
+import { mobilable } from '../Common';
 import Navigation from './Navigation';
 import ManageRoomBox from './ManageRoomBox';
 import AdminReservationBox from './AdminReservationBox';
+import ManageUserBox from './ManageUserBox';
 
 function Manage() {
     return (
@@ -11,6 +12,7 @@ function Manage() {
             <div className={mobilable('home-contents')}>
                 <ManageRoomBox />
                 <AdminReservationBox />
+                <ManageUserBox />
             </div>
         </div>
     );

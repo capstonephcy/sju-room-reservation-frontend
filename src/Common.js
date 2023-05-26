@@ -117,4 +117,22 @@ export const combineDateAndTime = (dateString, timeString) => {
     var combinedDate = new Date(year, month, day, hours, minutes, seconds);
     
     return combinedDate;
-  }
+}
+
+export const getLastWeekDay = () => {
+    const lastWeekDay = new Date();
+    lastWeekDay.setDate(lastWeekDay.getDate() - 6);
+    return lastWeekDay;
+}
+
+export const minus7Days = (date) => {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() - 7);
+    return newDate;
+}
+
+export const plus7Days = (date) => {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 7);
+    return newDate;
+}

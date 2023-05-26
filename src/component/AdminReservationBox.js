@@ -36,7 +36,6 @@ function AdminReservationBox() {
                 onFailure(navigate);
             }
         } catch (error) {
-            alert(error);
             onFailure(navigate);
         }
     }

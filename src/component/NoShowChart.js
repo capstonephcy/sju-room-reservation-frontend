@@ -1,11 +1,96 @@
 import { BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip } from "chart.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, onFailure, minus7Days, plus7Days } from "../Common";
+import './NoShowChart.css';
 
 function NoShowChart() {
-    useEffect(() => {
+    const navigate = useNavigate();
 
-    });
+    const [startDate, setStartDate] = useState(getLastWeekDay());
+    const [endDate, setEndDate] = useState(new Date());
+
+    const minus7DaysForDates = () => {
+        setStartDate(minus7Days(startDate));
+        setEndDate(minus7Days(endDate));
+    }
+
+    const plus7DaysForDates = () => {
+        setStartDate(plus7Days(startDate));
+        setEndDate(plus7Days(endDate));
+    }
+
+    useEffect(() => {
+        fetchRoomReservationStats();
+    }, [startDate, endDate]);
+
+    const [data, setData] = useState({ labels: [], datasets: [] });
+    const [labels, setLabels] = useState([]);
+    const [noShowRates, setNoShowRates] = useState([]);
+    const [revCnts, setRevCnts] = useState([]);
+    const [noShowCnts, setNoShowCnts] = useState([]);
+    
+    useEffect(() => {
+        setData({
+            labels,
+            datasets: [
+                {
+                    label: '노쇼 비율',
+                    data: noShowRates,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                },
+                {
+                    label: '예약',
+                    data: revCnts,
+                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                },
+                {
+                    label: '노쇼',
+                    data: noShowCnts,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                },
+            ],
+        });
+    }, [labels, noShowRates, revCnts, noShowCnts]);
+
+    const fetchRoomReservationStats = async () => {
+        try {
+            const startYYYYMMDD = convertDateToYYYYMMDD(startDate);
+            const endYYYYMMDD = convertDateToYYYYMMDD(endDate);
+            const response = await fetch(BASE_URL + '/metrics/rooms/reservations/stats?roomId=1&date=' + startYYYYMMDD + '&endDate=' + endYYYYMMDD, {
+                method: 'GET',
+                headers: {
+                    'Request-Type': 'TIME_RANGE',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+                }
+            });
+    
+            const data = await response.json();
+            const statusCode = response.status;
+            if (statusCode == 200) {
+                const newLabels = [];
+                const newNoShowRates = [];
+                const newRevCnts = [];
+                const newNoShowCnts = [];
+                data.roomStats.forEach((roomStat) => {
+                    newLabels.push(roomStat.date);
+                    newNoShowRates.push(roomStat.noShowRate);
+                    newRevCnts.push(roomStat.revCnt);
+                    newNoShowCnts.push(roomStat.noShowCnt);
+                });
+                setLabels(newLabels);
+                setNoShowRates(newNoShowRates);
+                setRevCnts(newRevCnts);
+                setNoShowCnts(newNoShowCnts);
+            } else {
+                onFailure(navigate);
+            }
+        } catch (error) {
+            onFailure(navigate);
+        }
+    }
 
     Chart.register(
         CategoryScale,
@@ -15,33 +100,16 @@ function NoShowChart() {
         Tooltip,
         Legend
     );
-    
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: '노쇼 비율',
-                data: [1, 2, 3],
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            },
-            {
-                label: '예약',
-                data: [1, 2, 3],
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-            {
-                label: '노쇼',
-                data: [1, 2, 3],
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            },
-        ],
-      };
 
     return (
         <div>
-            <a className='contents-box-title-text'>노쇼 통계</a>
+            <div className="chart-title-box">
+                <a className='contents-box-title-text'>노쇼 통계</a>
+                <div className="row-box">
+                    <a className="red-button" onClick={minus7DaysForDates}>←</a>
+                    <a className="red-button margin-left-05rem" onClick={plus7DaysForDates}>→</a>
+                </div>
+            </div>
             <Bar data={data} />
         </div>
     );

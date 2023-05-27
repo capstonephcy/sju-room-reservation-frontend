@@ -39,7 +39,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
             },
-            body: JSON.stringify({ name, building, number, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+            body: JSON.stringify({ name, building, number, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity, congestion })
         });
 
         const data = await response.json();

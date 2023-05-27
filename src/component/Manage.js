@@ -4,6 +4,7 @@ import Navigation from './Navigation';
 import ManageRoomBox from './ManageRoomBox';
 import AdminReservationBox from './AdminReservationBox';
 import ManageUserBox from './ManageUserBox';
+import RoomLogsBox from './RoomLogsBox';
 
 function Manage() {
     return (
@@ -13,6 +14,7 @@ function Manage() {
                 <ManageRoomBox />
                 <AdminReservationBox />
                 <ManageUserBox />
+                <RoomLogsBox />
             </div>
         </div>
     );

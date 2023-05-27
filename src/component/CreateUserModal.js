@@ -41,31 +41,31 @@ function CreateUserModal({ closeModal }) {
 
                 <div className="column-box margin-top-05rem">
                     <div className="row-space-between">
-                        <a className="create-user-item">username</a>
+                        <a>username</a>
                         <input type="text" onChange={(event) => { setUsername(event.target.value); }}/>
                     </div>
                     <div className="row-space-between">
-                        <a className="create-user-item">password</a>
+                        <a>password</a>
                         <input type="password" onChange={(event) => { setPassword(event.target.value); }}/>
                     </div>
                     <div className="row-space-between">
-                        <a className="create-user-item">email</a>
+                        <a>email</a>
                         <input type="text" onChange={(event) => { setEmail(event.target.value); }}/>
                     </div>
                     <div className="row-space-between">
-                        <a className="create-user-item">phone</a>
+                        <a>phone</a>
                         <input type="text" onChange={(event) => { setPhone(event.target.value); }}/>
                     </div>
                     <div className="row-space-between">
-                        <a className="create-user-item">name</a>
+                        <a>name</a>
                         <input type="text" onChange={(event) => { setName(event.target.value); }}/>
                     </div>
                     <div className="row-space-between">
-                        <a className="create-user-item">department</a>
+                        <a>department</a>
                         <input type="text" onChange={(event) => { setDepartment(event.target.value); }}/>
                     </div>
                     <div className="row-space-between">
-                        <a className="create-user-item">permission</a>
+                        <a>permission</a>
                         <input type="text" onChange={(event) => { setPermission(event.target.value); }}/>
                     </div>
                 </div>

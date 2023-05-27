@@ -4,10 +4,13 @@ import { BASE_URL, combineDateAndTime, convertDateToYYYYMMDD, mobilable, onFailu
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useState } from "react";
+import CreateReservationModal from "./CreateReservationModal";
 
 function AdminReservationBox() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
+
+    const [showsCreateReservationModal, setShowsCreateReservationModal] = useState(false);
 
     // { id: (reservation object for additional information) title: 'test1', 'date': '2023-05-19' }
     const [events, setEvents] = useState([]);
@@ -46,7 +49,10 @@ function AdminReservationBox() {
 
     return (
         <div className={`${mobilable('contents-with-title-box')} margin-top-2rem column-box`}>
-            <a className='contents-box-title-text'>예약 정보</a>
+            <div className='margin-top-2rem'>
+                <a className='contents-box-title-text'>예약 정보</a>
+                <a className='add-button cursor-pointer' onClick={() => { setShowsCreateReservationModal(true); }}>➕</a>
+            </div>
             <FullCalendar
                 allDaySlot={false}
                 locale={'ko'}
@@ -62,6 +68,7 @@ function AdminReservationBox() {
                     right: 'timeGridDay,timeGridWeek,dayGridMonth today prev,next'
                 }}
             />
+            { showsCreateReservationModal && <CreateReservationModal closeModal={() => {setShowsCreateReservationModal(false)}} /> }
         </div>
     );
 }

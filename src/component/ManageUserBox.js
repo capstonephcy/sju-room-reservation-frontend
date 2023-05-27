@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { BASE_URL, mobilable } from "../Common";
 import CreateUserModal from "./CreateUserModal";
-import './ManageUserBox.css';
 
 function ManageUserBox() {
     const [showsCreateUserModal, setShowsCreateUserModal] = useState(false);

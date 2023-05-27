@@ -9,22 +9,24 @@ function ManageRoomModal({ prevRoom, closeModal }) {
     const [name, setName] = useState(prevRoom ? prevRoom.name : "");
     const [building, setBuilding] = useState(prevRoom ? prevRoom.building : "대양AI센터"); // immutable for PUT + room 쿼리 시 building을 지정해야 해서 우선은 고정하였음
     const [number, setNumber] = useState(prevRoom ? prevRoom.number.toString() : ""); // Number
-    const [description, setDescription] = useState(prevRoom ? prevRoom.description : "");
-    const [whiteboard, setWhiteboard] = useState(prevRoom ? prevRoom.whiteboard : false);
-    const [projector, setProjector] = useState(prevRoom ? prevRoom.projector : false);
+    const [capacity, setCapacity] = useState(prevRoom ? prevRoom.capacity : 8);
+    const [congestion, setCongestion] = useState(prevRoom ? prevRoom.congestion : 1);
     const [maxPeakTimeForGrad, setMaxPeakTimeForGrad] = useState(prevRoom ? prevRoom.maxPeakTimeForGrad : 4);
     const [maxPeakTimeForStud, setMaxPeakTimeForStud] = useState(prevRoom ? prevRoom.maxPeakTimeForStud : 3);
     const [maxNormalTimeForGrad, setMaxNormalTimeForGrad] = useState(prevRoom ? prevRoom.maxNormalTimeForGrad : 3);
     const [maxNormalTimeForStud, setMaxNormalTimeForStud] = useState(prevRoom ? prevRoom.maxNormalTimeForStud : 2);
     const [maxLooseTimeForGrad, setMaxLooseTimeForGrad] = useState(prevRoom ? prevRoom.maxLooseTimeForGrad : 2);
     const [maxLooseTimeForStud, setMaxLooseTimeForStud] = useState(prevRoom ? prevRoom.maxLooseTimeForStud : 1);
-    const [capacity, setCapacity] = useState(8);
+    const [description, setDescription] = useState(prevRoom ? prevRoom.description : "");
+    const [whiteboard, setWhiteboard] = useState(prevRoom ? prevRoom.whiteboard : false);
+    const [projector, setProjector] = useState(prevRoom ? prevRoom.projector : false);
 
     const toggleConfirmButton = async () => {
         try {
             if (prevRoom == null) createRoom();
             else updateRoom();
-        } catch {
+        } catch (error) {
+            alert(error);
             onFailure(navigate);
         }
     }
@@ -48,6 +50,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 window.location.reload();
             });
         } else {
+            alert(data._metadata.message);
             onFailure(navigate);
         }
     }
@@ -60,7 +63,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
             },
-            body: JSON.stringify({ id: prevRoom.id, name, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity })
+            body: JSON.stringify({ id: prevRoom.id, name, description, whiteboard, projector, maxPeakTimeForGrad, maxPeakTimeForStud, maxNormalTimeForGrad, maxNormalTimeForStud, maxLooseTimeForGrad, maxLooseTimeForStud, capacity, congestion })
         });
         const data = await response.json();
         const statusCode = response.status;
@@ -70,6 +73,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 window.location.reload();
             });
         } else {
+            alert(data._metadata.message);
             onFailure(navigate);
         }
     }
@@ -178,6 +182,10 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                         <a className='room-input-description'>루즈타임 최대예약시간(일반 학생)</a>
                         <input type='number' value={maxLooseTimeForStud} onChange={((event) => setMaxLooseTimeForStud(event.target.value))} />
                     </div>
+                    <div className='room-input-box'>
+                        <a className='room-input-description'>혼잡도(0: HIGH, 1: MEDIUM, 2: LOW)</a>
+                        <input type='number' value={congestion} onChange={((event) => setCongestion(event.target.value))} />
+                    </div>
 
                     <div className='room-input-box-full'>
                         <a>설명</a>
@@ -201,7 +209,8 @@ function ManageRoomModal({ prevRoom, closeModal }) {
 
                 {prevRoom != null &&
                 <div className="delete-room-box">
-                    <a className="delete-room-button" onClick={toggleDeleteButton}>삭제하기</a>
+                    <a className="delete-room-button" onClick={() => {alert(JSON.stringify(prevRoom))}}>자세한 정보</a>
+                    <a className="delete-room-button margin-left-05rem" onClick={toggleDeleteButton}>삭제하기</a>
                 </div>}
 
                 <div className='modal-button-box'>

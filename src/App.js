@@ -7,14 +7,40 @@ import Manage from './component/Manage';
 import { isMobile } from 'react-device-detect';
 import { useState } from 'react';
 import { getFirebaseToken, onMessageListener } from './FirebaseConfig';
+import { BASE_URL } from './Common';
 
 function App() {
-  const [isTokenFound, setIsTokenFound] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
+  const updateToken = async (fcmRegistrationToken) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user === null) return;
+    try {
+      const response = await fetch(BASE_URL + '/users/profiles', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+        },
+        body: JSON.stringify({ fcmRegistrationToken: fcmRegistrationToken })
+      });
+
+      const data = await response.json();
+      const statusCode = response.status;
+      if (statusCode == 200) {
+        console.log("FcmRegistrationToken is updated");
+      } else {
+        console.log("Failed to update token: " + data._metadata.message);
+      }
+    } catch (error) {
+      console.log("Failed to update token: " + error);
+    }
+  }
+  
   useState(() => {
-    getFirebaseToken(setIsTokenFound);
-  }, [])
+    getFirebaseToken(updateToken);
+  }, []);
 
   onMessageListener()
     .then((payload) => {

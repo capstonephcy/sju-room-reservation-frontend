@@ -16,17 +16,16 @@ export default firebaseConfig;
 const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp);
 
-export const getFirebaseToken = (setTokenFound) => {
+export const getFirebaseToken = (onSuccess) => {
   return getToken(messaging, { vapidKey: "BHDrTrTrasxqg3b42APFfe2-HDw5HnnX1wVJunM3Os8oEitTcIRJqXXNweec3gm475Z0cmHfi-VsTiPPWaQlGT0" })
     .then((currentToken) => {
       if (currentToken) {
         sessionStorage.setItem('fcmRegistrationToken', currentToken);
-        setTokenFound(true);
+        onSuccess(currentToken);
         // Track the token -> client mapping, by sending to backend server
         // show on the UI that permission is secured
       } else {
         console.log('No registration token available. Request permission to generate one.');
-        setTokenFound(false);
         // shows on the UI that permission is required
       }
     })

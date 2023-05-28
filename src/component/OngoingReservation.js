@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, convertDateToHHmmss, fetchTodayReservation, mobilable } from "../Common";
+import { BASE_URL, convertDateToHHmmss, fetchMyTodayReservation, fetchTodayReservation, mobilable } from "../Common";
 import './OngoingReservation.css';
 
 function OngoingReservation() {
@@ -9,7 +9,7 @@ function OngoingReservation() {
     const [ongoingReservation, setOngoingReservation] = useState(null);
 
     useEffect(() => {
-        fetchTodayReservation((reservations) => {
+        fetchMyTodayReservation((reservations) => {
             const currentTime = convertDateToHHmmss(new Date());
             reservations.forEach(reservation => {
                 if (reservation.start <= currentTime && currentTime <= reservation.end) {

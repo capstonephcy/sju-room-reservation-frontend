@@ -90,6 +90,32 @@ export const fetchTodayReservation = async (onSuccess, onFailure) => {
     }
 }
 
+export const fetchMyTodayReservation = async (onSuccess, onFailure) => {
+    try {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        const currentYYYYMMDD = convertDateToYYYYMMDD(new Date());
+        const response = await fetch(BASE_URL + '/reservation/profiles?startDate=' + currentYYYYMMDD + '&endDate=' + currentYYYYMMDD + '&startTime=00:00:00&endTime=23:59:59&pageIdx=0&pageLimit=100&userId=' + user.id, {
+            method: 'GET',
+            headers: {
+                'Request-Type': 'TIME_RANGE',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
+            }
+        });
+
+        const data = await response.json();
+        const statusCode = response.status;
+        if (statusCode == 200) {
+            onSuccess(data.reservations);
+        } else {
+            onFailure();
+        }
+    } catch (error) {
+        onFailure();
+    }
+}
+
 export const onFailure = (navigate) => {
     alert("요청을 처리하는 데 실패했습니다.");
     if (!checkIsAdmin()) navigate("/login");

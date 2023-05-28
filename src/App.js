@@ -10,8 +10,6 @@ import { getFirebaseToken, onMessageListener } from './FirebaseConfig';
 import { BASE_URL } from './Common';
 
 function App() {
-  const [notifications, setNotifications] = useState([]);
-
   const updateToken = async (fcmRegistrationToken) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user === null) return;
@@ -48,24 +46,25 @@ function App() {
 
       const title = payload.notification.title;
       const body = payload.notification.body;
-      const message = {
-        id: 1,
+      const options = {
         title: title,
-        subText: body,
-        time: '1 min ago',
-        icon: 'mdi mdi-comment-account-outline',
-        variant: 'primary',
-        isRead: true,
+        message: body,
+        iconUrl: payload.notification.image
       };
 
-      const messages = [];
-      messages.push(message);
-
-      const notification = { day: 'Today', messages: messages };
-      notifications.push(notification);
-      setNotifications(notifications);
+      if (Notification.permission === 'granted') {
+        new Notification(title, options);
+      } else {
+        Notification.requestPermission()
+          .then((permission) => {
+            if (permission === 'granted') {
+              new Notification(title, options);
+            }
+          })
+          .catch((error) => console.log('Notification permission request error:', error));
+      }
     })
-    .catch((error) => console.log('failed: ', error));
+    .catch((error) => console.log('Failed: ', error));
 
   const rootFontSize = isMobile ? 12 : 16;
   document.documentElement.style.fontSize = `${rootFontSize}px`;

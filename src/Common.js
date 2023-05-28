@@ -123,7 +123,7 @@ export const onFailure = (navigate) => {
 
 export const checkIsAdmin = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    return user.permissions[0].includes("ADMIN");
+    return user?.permissions[0].includes("ADMIN") == true;
 }
 
 export const combineDateAndTime = (dateString, timeString) => {

@@ -7,18 +7,15 @@ import ReservationBox from './ReservationBox';
 import RoomListBox from './RoomListBox';
 import HomeGreetings from './HomeGreetings';
 import OngoingReservation from './OngoingReservation';
-import { useNavigate } from 'react-router-dom';
 
 function Home() {
-  const navigate = useNavigate();
-
   const [rooms, setRooms] = useState([]);
   const [roomsImages, setRoomsImages] = useState([]);
 
   useEffect(() => {
     if (checkIsAdmin()) {
-      alert("관리자 계정은 접근할 수 없는 페이지입니다.");
-      navigate("/statics");
+      alert("접근할 수 없는 페이지입니다.");
+      window.history.back();
     }
     fetchRoom(setRooms, setRoomsImages);
   }, []);

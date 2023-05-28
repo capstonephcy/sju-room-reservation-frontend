@@ -1,12 +1,9 @@
 import { BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip } from "chart.js";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { useNavigate } from "react-router-dom";
 import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, minus7Days, plus7Days, fetchRoom } from "../Common";
 
 function NoShowChart() {
-    const navigate = useNavigate();
-
     const [rooms, setRooms] = useState([]);
     const [roomId, setRoomId] = useState(null);
 

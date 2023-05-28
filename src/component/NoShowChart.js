@@ -2,7 +2,7 @@ import { BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip }
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, onFailure, minus7Days, plus7Days, fetchRoom } from "../Common";
+import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, minus7Days, plus7Days, fetchRoom } from "../Common";
 
 function NoShowChart() {
     const navigate = useNavigate();
@@ -95,10 +95,10 @@ function NoShowChart() {
                 setRevCnts(newRevCnts);
                 setNoShowCnts(newNoShowCnts);
             } else {
-                onFailure(navigate);
+                alert(JSON.stringify(data));
             }
         } catch (error) {
-            onFailure(navigate);
+            alert(error);
         }
     }
 

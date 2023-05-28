@@ -24,10 +24,10 @@ function ManageUserBox() {
             if (statusCode == 200) {
                 alert("사용자가 추가되었습니다.");
             } else {
-                alert("요청이 실패했습니다: " + data._metadata.message);
+                alert(JSON.stringify(data));
             }
         } catch (error) {
-            alert("요청이 실패했습니다: " + error);
+            alert(error);
         }
     }
 

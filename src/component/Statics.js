@@ -1,5 +1,5 @@
 import './Statics.css';
-import { BASE_URL, fetchUserProfile, mobilable } from '../Common';
+import { mobilable } from '../Common';
 import Navigation from './Navigation';
 import NoShowChart from './NoShowChart';
 

@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, mobilable, onFailure } from "../Common";
+import { BASE_URL, mobilable } from "../Common";
 import './ManageRoomModal.css';
 
 function ManageRoomModal({ prevRoom, closeModal }) {
-    const navigate = useNavigate();
-
     const [name, setName] = useState(prevRoom ? prevRoom.name : "");
     const [building, setBuilding] = useState(prevRoom ? prevRoom.building : "대양AI센터"); // immutable for PUT + room 쿼리 시 building을 지정해야 해서 우선은 고정하였음
     const [number, setNumber] = useState(prevRoom ? prevRoom.number.toString() : ""); // Number
@@ -27,7 +25,6 @@ function ManageRoomModal({ prevRoom, closeModal }) {
             else updateRoom();
         } catch (error) {
             alert(error);
-            onFailure(navigate);
         }
     }
 
@@ -50,8 +47,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 window.location.reload();
             });
         } else {
-            alert(data._metadata.message);
-            onFailure(navigate);
+            alert(JSON.stringify(data));
         }
     }
 
@@ -73,8 +69,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                 window.location.reload();
             });
         } else {
-            alert(data._metadata.message);
-            onFailure(navigate);
+            alert(JSON.stringify(data));
         }
     }
 
@@ -103,7 +98,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
         if (statusCode == 200) {
             onSuccess();
         } else {
-            onFailure(navigate);
+            alert(JSON.stringify(data));
         }
     }
 
@@ -125,10 +120,10 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                     alert("회의실이 삭제되었습니다.");
                     window.location.reload();
                 } else {
-                    onFailure(navigate);
+                    alert(JSON.stringify(data));
                 }
             } catch (error) {
-                onFailure(navigate);
+                alert(error);
             }
         }
     }

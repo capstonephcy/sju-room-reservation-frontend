@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, onFailure, minus7Days, plus7Days, fetchRoom } from "../Common";
-import './NoShowChart.css';
 
 function NoShowChart() {
     const navigate = useNavigate();
@@ -107,7 +106,7 @@ function NoShowChart() {
 
     return (
         <div>
-            <div className="chart-title-box">
+            <div className="row-space-between">
                 <a className='contents-box-title-text'>노쇼 통계</a>
                 <div className="row-box">
                     <a className="red-button" onClick={minus7DaysForDates}>←</a>

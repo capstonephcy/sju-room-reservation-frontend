@@ -1,0 +1,10 @@
+.table-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
+}
+
+th, td {
+    min-width: 2rem;
+    text-align: center;
+}

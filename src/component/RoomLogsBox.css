@@ -4,6 +4,10 @@
     overflow-x: scroll;
 }
 
+table {
+    white-space: nowrap;
+}
+
 th, td {
     min-width: 2rem;
     text-align: center;

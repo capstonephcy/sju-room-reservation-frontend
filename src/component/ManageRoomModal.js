@@ -10,7 +10,7 @@ function ManageRoomModal({ prevRoom, closeModal }) {
     const [building, setBuilding] = useState(prevRoom ? prevRoom.building : "대양AI센터"); // immutable for PUT + room 쿼리 시 building을 지정해야 해서 우선은 고정하였음
     const [number, setNumber] = useState(prevRoom ? prevRoom.number.toString() : ""); // Number
     const [capacity, setCapacity] = useState(prevRoom ? prevRoom.capacity : 8);
-    const [congestion, setCongestion] = useState(prevRoom ? prevRoom.congestion : 1);
+    const [congestion, setCongestion] = useState(prevRoom ? prevRoom.congestion : "MEDIUM");
     const [maxPeakTimeForGrad, setMaxPeakTimeForGrad] = useState(prevRoom ? prevRoom.maxPeakTimeForGrad : 4);
     const [maxPeakTimeForStud, setMaxPeakTimeForStud] = useState(prevRoom ? prevRoom.maxPeakTimeForStud : 3);
     const [maxNormalTimeForGrad, setMaxNormalTimeForGrad] = useState(prevRoom ? prevRoom.maxNormalTimeForGrad : 3);
@@ -183,8 +183,8 @@ function ManageRoomModal({ prevRoom, closeModal }) {
                         <input type='number' value={maxLooseTimeForStud} onChange={((event) => setMaxLooseTimeForStud(event.target.value))} />
                     </div>
                     <div className='room-input-box'>
-                        <a className='room-input-description'>혼잡도(0: HIGH, 1: MEDIUM, 2: LOW)</a>
-                        <input type='number' value={congestion} onChange={((event) => setCongestion(event.target.value))} />
+                        <a className='room-input-description'>혼잡도(HIGH, MEDIUM, LOW)</a>
+                        <input type='text' value={congestion} onChange={((event) => setCongestion(event.target.value))} />
                     </div>
 
                     <div className='room-input-box-full'>

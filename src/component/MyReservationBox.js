@@ -4,10 +4,14 @@ import { BASE_URL, combineDateAndTime, convertDateToYYYYMMDD, mobilable, onFailu
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useState } from "react";
+import ReservationModal from "./ReservationModal";
 
 function MyReservationBox() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
+
+    const [showsReservationModal, setShowsReservationModal] = useState(false);
+    const [selectedReservation, setSelectedReservation] = useState(null);
 
     // { id: (reservation object for additional information) title: 'test1', 'date': '2023-05-19' }
     const [events, setEvents] = useState([]);
@@ -42,7 +46,8 @@ function MyReservationBox() {
 
     const toggleEventClick = (data) => {
         const reservation = JSON.parse(data.event.id);
-        alert(`${reservation.room.name} ${reservation.start.slice(0, 5)}~${reservation.end.slice(0, 5)}`);
+        setSelectedReservation(reservation)
+        setShowsReservationModal(true);
     }
 
     return (
@@ -63,6 +68,8 @@ function MyReservationBox() {
                     right: 'timeGridDay,timeGridWeek,dayGridMonth today prev,next'
                 }}
             />
+
+            {showsReservationModal && <ReservationModal reservation={selectedReservation} closeModal={() => { setShowsReservationModal(false) }} />}
         </div>
     );
 }

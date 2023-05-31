@@ -90,6 +90,10 @@ function ReservationBox({ rooms }) {
         }
         
         setAvailableTimes(newAvailableTimes);
+        if (availableTimes.length >= 1) {
+            setStart(availableTimes[0]);
+            setEnd(availableTimes[0]);
+        }
     }
 
     const onChangeDate = date => {

@@ -61,9 +61,7 @@ function RepModal({ selectedRoom, date, start, end, members, closeModal }) {
                     start: start,
                     end: end,
                     iteration: iter,
-                    attendants: [
-                        // TODO: members.map { it.id }
-                    ]
+                    attendants: members.map((item) => (item.id))
                 })
             });
     

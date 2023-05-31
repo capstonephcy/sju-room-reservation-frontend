@@ -150,9 +150,7 @@ function ReservationBox({ rooms }) {
                     date: convertDateToYYYYMMDD(date),
                     start: start,
                     end: end,
-                    attendants: [
-                        // TODO: members.map { it.id }
-                    ]
+                    attendants: members.map((item) => (item.id))
                 })
             });
     

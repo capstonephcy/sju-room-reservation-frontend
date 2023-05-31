@@ -39,7 +39,7 @@ function ReservationModal({ reservation, closeModal }) {
                 <div className="column-box">
                     <a>{`${reservation.room.building} ${reservation.room.name}`}</a>
                     <a>{`${reservation.date} ${reservation.start.slice(0,5)}~${reservation.end.slice(0,5)}`}</a>
-                    <a>참여자: {reservation.attendants.map((item) => (<a>{item.name}</a>))}</a>
+                    <a>참여자: {reservation.attendants.map(user => user.name).join(", ")}</a>
                 </div>
                 
                 <div className="delete-room-box">

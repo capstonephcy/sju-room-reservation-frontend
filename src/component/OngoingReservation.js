@@ -28,10 +28,12 @@ function OngoingReservation() {
             const response = await fetch(BASE_URL + '/reservation/profiles/checkin', {
                 method: 'PUT',
                 headers: {
-                  'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
                 },
                 body: JSON.stringify({
-                    id: 1, // TODO: room's id
+                    id: ongoingReservation.room.id,
                     checkInCode: checkInCode
                 })
             });

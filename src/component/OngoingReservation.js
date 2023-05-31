@@ -33,7 +33,7 @@ function OngoingReservation() {
                     'Refresh' : `Bearer ${localStorage.getItem('refreshToken')}`
                 },
                 body: JSON.stringify({
-                    id: ongoingReservation.room.id,
+                    id: ongoingReservation.id,
                     checkInCode: checkInCode
                 })
             });

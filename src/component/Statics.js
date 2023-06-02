@@ -2,6 +2,8 @@ import './Statics.css';
 import { checkIsAdmin, mobilable } from '../Common';
 import Navigation from './Navigation';
 import NoShowChart from './NoShowChart';
+import CapacityChart from './CapacityChart';
+
 import { useEffect } from 'react';
 
 function Statics() {
@@ -17,6 +19,8 @@ function Statics() {
             <Navigation />
             <div className={mobilable('home-contents')}>
                 <NoShowChart />
+                <div className={`margin-top-2rem`} />
+                <CapacityChart />
             </div>
         </div>
     );

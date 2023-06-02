@@ -20,8 +20,8 @@ function ManageRoomBox() {
                 <a className='add-button cursor-pointer' onClick={() => { setSelectedRoom(null); setShowsManageRoomModal(true); }}>➕</a>
             </div>
             <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
-                {rooms.map((item) => (
-                <a className='reservation-room-title' onClick={() => { setSelectedRoom(item); setShowsManageRoomModal(true); }}>{item.name}</a>
+                {rooms.map((item, index) => (
+                <a key={index} className='reservation-room-title' onClick={() => { setSelectedRoom(item); setShowsManageRoomModal(true); }}>{item.name}</a>
                 ))}
             </div>
 

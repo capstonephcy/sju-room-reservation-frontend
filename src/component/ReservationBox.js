@@ -183,8 +183,8 @@ function ReservationBox({ rooms }) {
                         else setSelectedRoom(rooms[index - 1]);
                     }}>
                         <option>회의실 명</option>
-                        {rooms.map((item) => (
-                            <option>{item.name}</option>
+                        {rooms.map((item, index) => (
+                            <option key={index}>{item.name}</option>
                         ))}
                     </select>
                 </div>
@@ -197,15 +197,15 @@ function ReservationBox({ rooms }) {
                 <div className='gray-box'>
                     <img src='/img/clock.png' className='gray-box-icon'/>
                     <select className={mobilable('gray-dropdown')} onChange={(event) => { setStart(event.target.value ); }}>
-                        {availableTimes.map((item) => (
-                            <option>{item.slice(0, 5)}</option>
+                        {availableTimes.map((item, index) => (
+                            <option key={index}>{item.slice(0, 5)}</option>
                         ))}
                     </select>
                     <a> ~ </a>
                     <select className={mobilable('gray-dropdown')} onChange={(event) => { setEnd(event.target.value ); }}>
                         {sliceContinuousTimes(availableTimes.filter((item) => (item >= start)))
-                            .map((item) => (
-                                <option>{item.slice(0, 5)}</option>
+                            .map((item, index) => (
+                                <option key={index}>{item.slice(0, 5)}</option>
                             ))
                         }
                     </select>
@@ -216,8 +216,8 @@ function ReservationBox({ rooms }) {
                     <input className='search-box-input gray-box-text text-ellipsis' value={query} onChange={(event) => { setQuery(event.target.value); }} placeholder={members.length > 0 ? members.map(user => user.name).join(", ") : "참여 인원 이름 검색"}></input>
                 </div>
                 <div className='search-result-box'>
-                    {searchedMembers.map((user) => (
-                        <a className='search-result-item' onClick={() => toggleSearchedMember(user)}>{user.username} {user.name}</a>
+                    {searchedMembers.map((user, index) => (
+                        <a key={index} className='search-result-item' onClick={() => toggleSearchedMember(user)}>{user.username} {user.name}</a>
                     ))}
                 </div>
 

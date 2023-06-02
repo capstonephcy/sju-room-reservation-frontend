@@ -58,16 +58,16 @@ function RoomLogsBox() {
                             const index = event.target.selectedIndex;
                             setRoomId(rooms[index].id);
                         }}>
-                        {rooms.map((item) => (
-                            <option>{item.name}</option>
+                        {rooms.map((item, index) => (
+                            <option key={index}>{item.name}</option>
                         ))}
                     </select>
                 </div>
             </div>
             <div className={`${mobilable('contents-box')} margin-top-1rem`}>
                 <div className="table-wrapper">
-                    {roomLogs.map((item) => (
-                        <table>
+                    {roomLogs.map((item, index) => (
+                        <table key={index}>
                             <thead>
                                 <tr>
                                     <th>id</th>

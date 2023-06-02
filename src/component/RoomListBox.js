@@ -11,7 +11,7 @@ function RoomListBox({ rooms, roomsImages }) {
             <a className='contents-box-title-text margin-top-2rem'>회의실 목록</a>
             <div className={`${mobilable('reservation-room-list-box')} ${mobilable('contents-box')} margin-top-1rem`}>
                 {rooms.map((item, index) => (
-                <a className='reservation-room-title' onClick={() => { setShowingRoom(item); setShowingRoomImages(roomsImages[index]); }}>{item.name}</a>
+                <a key={index} className='reservation-room-title' onClick={() => { setShowingRoom(item); setShowingRoomImages(roomsImages[index]); }}>{item.name}</a>
                 ))}
             </div>
 

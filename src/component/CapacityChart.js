@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { BASE_URL, convertDateToYYYYMMDD, getLastWeekDay, minus7Days, plus7Days, fetchRoom } from "../Common";
 
-function NoShowChart() {
+function CapacityChart() {
     const [rooms, setRooms] = useState([]);
     const [roomId, setRoomId] = useState(null);
 
@@ -34,32 +34,30 @@ function NoShowChart() {
 
     const [data, setData] = useState({ labels: [], datasets: [] });
     const [labels, setLabels] = useState([]);
-    const [noShowRates, setNoShowRates] = useState([]);
-    const [revCnts, setRevCnts] = useState([]);
-    const [noShowCnts, setNoShowCnts] = useState([]);
+    const [loadRates, setLoadRates] = useState([]);
     
     useEffect(() => {
         setData({
             labels,
             datasets: [
                 {
-                    label: '노쇼 비율',
-                    data: noShowRates,
-                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    label: '예약 점유율',
+                    data: loadRates,
+                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
                 },
-                {
-                    label: '예약',
-                    data: revCnts,
-                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                },
-                {
-                    label: '노쇼',
-                    data: noShowCnts,
-                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                },
+                // {
+                //     label: '예약',
+                //     data: revCnts,
+                //     backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                // },
+                // {
+                //     label: '노쇼',
+                //     data: noShowCnts,
+                //     backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                // },
             ],
         });
-    }, [labels, noShowRates, revCnts, noShowCnts]);
+    }, [labels, loadRates]);
 
     const fetchRoomReservationStats = async () => {
         try {
@@ -78,19 +76,13 @@ function NoShowChart() {
             const statusCode = response.status;
             if (statusCode == 200) {
                 const newLabels = [];
-                const newNoShowRates = [];
-                const newRevCnts = [];
-                const newNoShowCnts = [];
+                const newLoadRates = [];
                 data.roomStats.forEach((roomStat) => {
                     newLabels.push(roomStat.date);
-                    newNoShowRates.push(roomStat.noShowRate);
-                    newRevCnts.push(roomStat.revCnt);
-                    newNoShowCnts.push(roomStat.noShowCnt);
+                    newLoadRates.push(roomStat.loadRate);
                 });
                 setLabels(newLabels);
-                setNoShowRates(newNoShowRates);
-                setRevCnts(newRevCnts);
-                setNoShowCnts(newNoShowCnts);
+                setLoadRates(newLoadRates);
             } else {
                 alert(JSON.stringify(data));
             }
@@ -104,7 +96,7 @@ function NoShowChart() {
     return (
         <div>
             <div className="row-space-between">
-                <a className='contents-box-title-text'>노쇼 통계</a>
+                <a className='contents-box-title-text'>점유율 통계</a>
                 <div className="row-box">
                     <a className="red-button" onClick={minus7DaysForDates}>←</a>
                     <a className="red-button margin-left-05rem" onClick={plus7DaysForDates}>→</a>
@@ -125,4 +117,4 @@ function NoShowChart() {
     );
 }
 
-export default NoShowChart;
+export default CapacityChart;
